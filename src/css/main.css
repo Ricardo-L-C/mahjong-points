@@ -68,7 +68,66 @@ body {
 
 .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+/* players RAspect Ratio: 8 : 3*/
+
+.player {
+    background-color: lightpink;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (orientation: landscape) {
+    .player {
+        width: calc(100% / 2);
+        height: calc(100% / 3);
+    }
+
+    .player1 {
+        right: calc(-100% * (5 / 32));
+    }
+
+    .player3 {
+        left: calc(-100% * (5 / 32));
+    }
+}
+
+@media (orientation: portrait) {
+    .player {
+        width: calc(100% * (8 / 9));
+        height: calc(100% * (3 / 16));
+    }
+
+    .player1 {
+        right: calc(-100% * (5 / 18));
+    }
+
+    .player3 {
+        left: calc(-100% * (5 / 18));
+    }
+}
+
+.player0 {
+    bottom: 0;
+}
+
+.player1 {
+    transform: rotate(270deg);
+}
+
+.player2 {
+    top: 0;
+    transform: rotate(180deg);
+}
+
+.player3 {
+    transform: rotate(90deg);
 }
