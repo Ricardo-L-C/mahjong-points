@@ -37,6 +37,16 @@ body {
     visibility: hidden;
 }
 
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
 /* Aspect Ratio: 16 : 9 */
 @media (orientation: landscape) {
     .container {
@@ -67,22 +77,14 @@ body {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
     position: relative;
 }
 
-/* players RAspect Ratio: 8 : 3*/
-
+/* Player RAspect Ratio: 8 : 3*/
 .player {
     background-color: lightpink;
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 @media (orientation: landscape) {
@@ -130,4 +132,66 @@ body {
 
 .player3 {
     transform: rotate(90deg);
+}
+
+/* Player Components */
+.left {
+    width: 15%;
+    background-color: lightblue;
+    height: 100%;
+}
+
+.left > .pos,
+.left > .dice {
+    width: 80%;
+    height: 50%;
+}
+
+.playerinfo {
+    width: 40%;
+    height: 100%;
+    background-color: lightyellow;
+}
+
+.playerinfo > * {
+    width: 100%;
+}
+
+.playerinfo > .points {
+    height: 60%;
+}
+
+.playerinfo > .name {
+    height: 40%;
+}
+
+.publicinfo {
+    width: 25%;
+    height: 100%;
+}
+
+.publicinfo > * {
+    width: 100%;
+    margin: 3% auto;
+}
+
+.publicinfo > .round {
+    height: 40%;
+}
+
+.publicinfo > .benchang,
+.publicinfo > .richi {
+    height: 20%;
+}
+
+.buttons {
+    width: 20%;
+    height: 100%;
+    background-color: lightgrey;
+}
+
+.buttons > button {
+    width: 80%;
+    height: 20%;
+    margin: 5% auto;
 }
