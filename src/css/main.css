@@ -184,6 +184,11 @@ body {
     height: 20%;
 }
 
+.publicinfo > .honba > img,
+.publicinfo > .richi > img {
+    width: 50%;
+}
+
 .buttons {
     width: 20%;
     height: 100%;
