@@ -13,9 +13,20 @@ class Game {
         this.publicInfo["turn"] = 0;
         this.publicInfo["richi"] = 0;
         this.publicInfo["honba"] = 0;
+
+        this.initEnvironment();
+
+        this.initSettings();
+
+        this.initPlayers();
+        this.initBoard();
     }
 
-    initDomHandle() {
+    initEnvironment() {
+
+    }
+
+    initBoard() {
 
     }
 
@@ -23,7 +34,8 @@ class Game {
         let playerHandles = document.querySelectorAll("player");
 
         for (let i = 0; i < this.playernums; ++i) {
-            this.players.append(new GamePlayer(0, 0, playerHandles[i]));
+            let player = new GamePlayer(playerHandles[i]);
+            this.players.append(player);
         }
     }
 
@@ -43,9 +55,7 @@ class Game {
 }
 
 class GamePlayer {
-    constructor(beginPoints, positoin, handle) {
-        this.beginPoints = beginPoints;
-        this.positoin = positoin;
+    constructor(handle) {
         this.handle = handle;
     }
 }
