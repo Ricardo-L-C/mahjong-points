@@ -15,8 +15,8 @@
     <div class="container flex-center flex-column">
         <div class="player flex-center player0">
             <div class="left flex-center flex-column">
-                <div class="pos"></div>
-                <div class="dice"></div>
+                <div class="pos flex-center"></div>
+                <div class="dice flex-center"></div>
             </div>
             <div class="playerinfo">
                 <div class="points flex-center">25000</div>
@@ -24,19 +24,29 @@
             </div>
             <div class="publicinfo flex-center flex-column">
                 <div class="round flex-center">东1局</div>
-                <div class="honba flex-center"><img src="" /><div>0</div></div>
-                <div class="richi flex-center"><img src="" /><div>0</div></div>
+                <div class="honba flex-center"><img src="" />
+                    <div>0</div>
+                </div>
+                <div class="richi flex-center"><img src="" />
+                    <div>0</div>
+                </div>
             </div>
             <div class="buttons flex-center flex-column">
-                <button>ロン</button>
-                <button>ツモ</button>
-                <button>リーチ</button>
+                <button class="ron">ロン</button>
+                <button class="tsumo">ツモ</button>
+                <button class="richi">リーチ</button>
             </div>
         </div>
         <div class="player flex-center player1">111</div>
-        <div class="player flex-center player2">222</div>
+        <div class="player flex-center player2">2222</div>
         <div class="player flex-center player3">333</div>
-        <div class="board"></div>
+        <div class="board flex-center flex-column">
+            <button class="exhaustive">荒牌流局</button>
+            <button class="abortive">途中流局</button>
+            <button class="multiron">多家和</button>
+            <button class="pao">包牌</button>
+            <button class="history">查看历史</button>
+        </div>
     </div>
 </body>
 

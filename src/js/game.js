@@ -29,7 +29,6 @@ class Game {
 
     initSettings() {
         preSettings = this.getPreSettings();
-        console.log(preSettings);
     }
 
     async getPreSettings() {

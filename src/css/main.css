@@ -195,3 +195,29 @@ body {
     height: 20%;
     margin: 5% auto;
 }
+
+/* Board */
+@media (orientation: landscape) {
+    .board {
+        width: calc(100% / 16 * 9 / 4);
+        height: calc(100% / 9 * 16 / 2);
+        transform: rotate(270deg);
+    }
+}
+
+@media (orientation: portrait) {
+    .board {
+        width: calc(100% / 4);
+        height: calc(100% / 2);
+    }
+}
+
+.board {
+    background-color: lightgray;
+}
+
+.board > button {
+    width: 100%;
+    height: 10%;
+    margin: 5% auto;
+}
