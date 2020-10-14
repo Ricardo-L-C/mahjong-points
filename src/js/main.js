@@ -1,6 +1,11 @@
-import game from "game.js"
+import game from "./game.js"
 
-game.init(4);
 
-game.start();
 
+window.onload=async ()=>{game.init(4);
+
+    game.start();
+    
+    let a = await game.getPreSettings();
+    
+    console.log(a )}
