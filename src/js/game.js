@@ -57,6 +57,16 @@ class Game {
 class GamePlayer {
     constructor(handle) {
         this.handle = handle;
+
+        this.pos = handle.querySelector(".pos");
+        this.dice = handle.querySelector(".dice");
+        this.points = handle.querySelector(".points");
+        this.round = handle.querySelector(".round");
+        this.honbaN = handle.querySelector(".honba-n > div");
+        this.richiN = handle.querySelector(".richi-n > div");
+        this.ron = handle.querySelector(".ron");
+        this.tsumo = handle.querySelector(".tsumo");
+        this.richi = handle.querySelector(".richi");
     }
 }
 

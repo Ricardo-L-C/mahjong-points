@@ -135,6 +135,14 @@ body {
 }
 
 /* Player Components */
+.player > .richi-s {
+    height: 20%;
+}
+
+.player > .richi-s > img {
+    width: 50%;
+}
+
 .left {
     width: 15%;
     background-color: lightblue;
@@ -176,16 +184,16 @@ body {
 }
 
 .publicinfo > .round {
-    height: 40%;
+    height: 30%;
 }
 
-.publicinfo > .honba,
-.publicinfo > .richi {
-    height: 20%;
+.publicinfo > .honba-n,
+.publicinfo > .richi-n {
+    height: 15%;
 }
 
-.publicinfo > .honba > img,
-.publicinfo > .richi > img {
+.publicinfo > .honba-n > img,
+.publicinfo > .richi-n > img {
     width: 50%;
 }
 
