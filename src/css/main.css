@@ -139,8 +139,13 @@ body {
     height: 20%;
 }
 
+.player > div:nth-child(2) {
+    height: 80%;
+}
+
 .player > .richi-s > img {
-    width: 50%;
+    height: 100%;
+    width: auto;
 }
 
 .left {
