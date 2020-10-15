@@ -62,6 +62,7 @@ class GamePlayer {
         this.Hpos = handle.querySelector(".pos");
         this.Hdice = handle.querySelector(".dice");
         this.Hpoints = handle.querySelector(".points");
+        this.Hname = handle.querySelector(".name");
         this.Hround = handle.querySelector(".round");
         this.HhonbaN = handle.querySelector(".honba-n > div");
         this.HrichiN = handle.querySelector(".richi-n > div");
@@ -94,8 +95,17 @@ class GamePlayer {
         this.Hpoints.innerHTML = n;
     }
 
-    get points(){
+    get points() {
         return this.Vpoints;
+    }
+
+    set name(n) {
+        this.Vname = n;
+        this.Hname.innerHTML = n;
+    }
+
+    get name() {
+        return this.Vname;
     }
 
     set round(n) {
