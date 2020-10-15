@@ -58,15 +58,68 @@ class GamePlayer {
     constructor(handle) {
         this.handle = handle;
 
-        this.pos = handle.querySelector(".pos");
-        this.dice = handle.querySelector(".dice");
-        this.points = handle.querySelector(".points");
-        this.round = handle.querySelector(".round");
-        this.honbaN = handle.querySelector(".honba-n > div");
-        this.richiN = handle.querySelector(".richi-n > div");
-        this.ron = handle.querySelector(".ron");
-        this.tsumo = handle.querySelector(".tsumo");
-        this.richi = handle.querySelector(".richi");
+        this.HrichiS = handle.querySelector(".richi-s");
+        this.Hpos = handle.querySelector(".pos");
+        this.Hdice = handle.querySelector(".dice");
+        this.Hpoints = handle.querySelector(".points");
+        this.Hround = handle.querySelector(".round");
+        this.HhonbaN = handle.querySelector(".honba-n > div");
+        this.HrichiN = handle.querySelector(".richi-n > div");
+
+        this.Hron = handle.querySelector(".ron");
+        this.Htsumo = handle.querySelector(".tsumo");
+        this.Hrichi = handle.querySelector(".richi");
+    }
+
+    set richiS(n) {
+        if (n === true)
+            this.HrichiS.classList.remove("hidden");
+        else if (n === false)
+            this.HrichiS.classList.add("hidden");
+    }
+
+    set pos(n) {
+
+    }
+
+    set dice(n) {
+        if (n === true)
+            this.Hdice.classList.remove("hidden");
+        else if (n === false)
+            this.Hdice.classList.add("hidden");
+    }
+
+    set points(n) {
+        this.Vpoints = n;
+        this.Hpoints.innerHTML = n;
+    }
+
+    get points(){
+        return this.Vpoints;
+    }
+
+    set round(n) {
+        this.Hround.innerHTML = n;
+    }
+
+    set honbaN(n) {
+        this.HhonbaN.innerHTML = `&nbsp×&nbsp0${n}`;
+    }
+
+    set richiN(n) {
+        this.HrichiN.innerHTML = `&nbsp×&nbsp0${n}`;
+    }
+
+    ron() {
+
+    }
+
+    tsumo() {
+
+    }
+
+    richi() {
+
     }
 }
 
