@@ -33,7 +33,7 @@ class Game {
     initPlayers() {
         let playerHandles = document.querySelectorAll("player");
 
-        for (let i = 0; i < this.playernums; ++i) {
+        for (let i = 0; i < this.playerHandles; ++i) {
             let player = new GamePlayer(playerHandles[i]);
             this.players.append(player);
         }
@@ -58,18 +58,18 @@ class GamePlayer {
     constructor(handle) {
         this.handle = handle;
 
-        this.HrichiS = handle.querySelector(".richi-s");
-        this.Hpos = handle.querySelector(".pos");
-        this.Hdice = handle.querySelector(".dice");
-        this.Hpoints = handle.querySelector(".points");
-        this.Hname = handle.querySelector(".name");
-        this.Hround = handle.querySelector(".round");
-        this.HhonbaN = handle.querySelector(".honba-n > div");
-        this.HrichiN = handle.querySelector(".richi-n > div");
+        this.HrichiS = this.handle.querySelector(".richi-s");
+        this.Hpos = this.handle.querySelector(".pos > img");
+        this.Hdice = this.handle.querySelector(".dice");
+        this.Hpoints = this.handle.querySelector(".points");
+        this.Hname = this.handle.querySelector(".name");
+        this.Hround = this.handle.querySelector(".round");
+        this.HhonbaN = this.handle.querySelector(".honba-n > div");
+        this.HrichiN = this.handle.querySelector(".richi-n > div");
 
-        this.Hron = handle.querySelector(".ron");
-        this.Htsumo = handle.querySelector(".tsumo");
-        this.Hrichi = handle.querySelector(".richi");
+        this.Hron = this.handle.querySelector(".ron");
+        this.Htsumo = this.handle.querySelector(".tsumo");
+        this.Hrichi = this.handle.querySelector(".richi");
     }
 
     set richiS(n) {
@@ -80,7 +80,8 @@ class GamePlayer {
     }
 
     set pos(n) {
-
+        this.posList=["don","nan","sei", "hoku"];
+        this.Hpos.src = `./static/img/${this.posList[n]}.png`;
     }
 
     set dice(n) {
