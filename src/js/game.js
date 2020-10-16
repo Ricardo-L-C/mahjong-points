@@ -102,7 +102,7 @@ class GamePlayer {
 
     set richiS(n) {
         this.VrichiS = n;
-        console.log(n);
+
         if (n === true)
             this.HrichiS.classList.remove("hidden");
         else if (n === false)
