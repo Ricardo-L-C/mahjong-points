@@ -31,10 +31,10 @@ class Game {
     }
 
     initPlayers() {
-        let playerHandles = document.querySelectorAll(".player");
+        for (let i = 0; i < this.playernums; ++i) {
+            let playerHandle = document.querySelectorAll(`.player${i}`);
+            let player = new GamePlayer(playerHandle, 25000, i);
 
-        for (let i = 0; i < this.playerHandles; ++i) {
-            let player = new GamePlayer(playerHandles[i]);
             this.players.append(player);
         }
     }
@@ -55,7 +55,7 @@ class Game {
 }
 
 class GamePlayer {
-    constructor(handle) {
+    constructor(handle, points, pos) {
         this.handle = handle;
 
         this.HrichiS = this.handle.querySelector(".richi-s");
@@ -70,6 +70,9 @@ class GamePlayer {
         this.Hron = this.handle.querySelector(".ron");
         this.Htsumo = this.handle.querySelector(".tsumo");
         this.Hrichi = this.handle.querySelector(".richi");
+
+        this.points = points;
+        this.pos = pos;
     }
 
     set richiS(n) {
@@ -80,7 +83,7 @@ class GamePlayer {
     }
 
     set pos(n) {
-        this.posList=["don","nan","sei", "hoku"];
+        this.posList = ["don", "nan", "sei", "hoku"];
         this.Hpos.src = `./static/img/${this.posList[n]}.png`;
     }
 
