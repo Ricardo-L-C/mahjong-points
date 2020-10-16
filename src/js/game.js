@@ -63,9 +63,9 @@ class GamePlayer {
     initHandles(handle) {
         this.handle = handle;
 
-        this.HrichiS = this.handle.querySelector(".richi-s");
+        this.HrichiS = this.handle.querySelector(".richi-s > img");
         this.Hpos = this.handle.querySelector(".pos > img");
-        this.Hdice = this.handle.querySelector(".dice");
+        this.Hdice = this.handle.querySelector(".dice > img");
         this.Hpoints = this.handle.querySelector(".points");
         this.Hname = this.handle.querySelector(".name");
         this.Hround = this.handle.querySelector(".round");
@@ -82,7 +82,7 @@ class GamePlayer {
         this.Hrichi.addEventListener("click", (event) => { console.log(`${this.pos} clicked richi.`); });
     }
 
-    initValues(name, points, pos) {
+    initValues(name, points, pos, publicInfo) {
         this.richiS = false;
         this.pos = pos;
         this.dice = pos === 0;
@@ -95,6 +95,7 @@ class GamePlayer {
 
     set richiS(n) {
         this.VrichiS = n;
+        console.log(n);
         if (n === true)
             this.HrichiS.classList.remove("hidden");
         else if (n === false)

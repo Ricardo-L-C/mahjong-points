@@ -25,12 +25,8 @@ body {
     align-items: center;
 }
 
-.container {
-    background-color: lightgreen;
-}
-
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .visibility-hidden {
@@ -85,6 +81,7 @@ body {
 .container {
     overflow: hidden;
     position: relative;
+    background-color:  lightgreen;
 }
 
 /* Player RAspect Ratio: 8 : 3*/
