@@ -1,3 +1,5 @@
+import Dialog from "./dialog.js"
+
 class Game {
     constructor() {
         this.history = new GameHistory();
@@ -13,14 +15,10 @@ class Game {
         this.publicInfo["richi"] = 0;
         this.publicInfo["honba"] = 0;
 
-        this.initEnvironment();
-
         this.initSettings();
 
         this.initPlayers();
-    }
 
-    initEnvironment() {
         this.initBoard();
     }
 
@@ -31,20 +29,29 @@ class Game {
     initPlayers() {
         for (let i = 0; i < this.playernums; ++i) {
             let playerHandle = document.querySelector(`.player${i}`);
-            let player = new GamePlayer(playerHandle, this.playernums, `player${i}`, 25000, i, this.publicInfo);
+            let player = new GamePlayer(playerHandle, this.playernums, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i], this.publicInfo);
 
             this.players.push(player);
         }
     }
 
-    initSettings() {
+    async initSettings() {
+        let preSettings = await this.getPreSettings();
 
+        console.log(Object.keys(preSettings));
+
+        let dialog = new Dialog("settings");
+        dialog.show();
+
+        this.settings = preSettings["天凤段位战"];
+        this.settings["玩家名称"] = ["player0", "player1", "player2", "player3"];
+        this.settings["起始位置"] = [0, 1, 2, 3];
     }
 
     async getPreSettings() {
         let preSettings = await (await fetch('./static/json/config.json')).json();
 
-        return preSettings;
+        return preSettings[`${this.playernums}`];
     }
 
     start() {
@@ -77,6 +84,7 @@ class GamePlayer {
         this.Hrichi = this.handle.querySelector(".richi");
 
         this.Hdice.addEventListener("click", (event) => { console.log(`${this.pos} clicked dice.`); });
+        this.Hpoints.addEventListener("click", (event) => { console.log(`${this.pos} clicked points.`); });
         this.Hron.addEventListener("click", (event) => { console.log(`${this.pos} clicked ron.`); });
         this.Htsumo.addEventListener("click", (event) => { console.log(`${this.pos} clicked tsumo.`); });
         this.Hrichi.addEventListener("click", (event) => { console.log(`${this.pos} clicked richi.`); });
@@ -166,7 +174,11 @@ class GamePlayer {
     }
 
     richi() {
+        this.richiS = true;
+    }
 
+    readyForNext() {
+        this.richiS = false;
     }
 }
 
