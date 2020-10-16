@@ -19,11 +19,10 @@ class Game {
         this.initSettings();
 
         this.initPlayers();
-        this.initBoard();
     }
 
     initEnvironment() {
-
+        this.initBoard();
     }
 
     initBoard() {
@@ -32,10 +31,10 @@ class Game {
 
     initPlayers() {
         for (let i = 0; i < this.playernums; ++i) {
-            let playerHandle = document.querySelectorAll(`.player${i}`);
-            let player = new GamePlayer(playerHandle, 25000, i);
+            let playerHandle = document.querySelector(`.player${i}`);
+            let player = new GamePlayer(playerHandle, `player${i}`, 25000, i);
 
-            this.players.append(player);
+            this.players.push(player);
         }
     }
 
@@ -55,7 +54,7 @@ class Game {
 }
 
 class GamePlayer {
-    constructor(handle, points, pos) {
+    constructor(handle, name, points, pos) {
         this.handle = handle;
 
         this.HrichiS = this.handle.querySelector(".richi-s");
@@ -71,6 +70,7 @@ class GamePlayer {
         this.Htsumo = this.handle.querySelector(".tsumo");
         this.Hrichi = this.handle.querySelector(".richi");
 
+        this.name = name;
         this.points = points;
         this.pos = pos;
     }
@@ -83,7 +83,8 @@ class GamePlayer {
     }
 
     set pos(n) {
-        this.posList = ["don", "nan", "sei", "hoku"];
+        this.Vpos = n;
+        this.posList = ["dou", "nan", "sei", "hoku"];
         this.Hpos.src = `./static/img/${this.posList[n]}.png`;
     }
 
