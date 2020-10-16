@@ -1,12 +1,16 @@
 import Dialog from "./dialog.js"
+import GamePlayer from "./gamePlayer.js"
+import GameHistory from ""
 
 class Game {
     constructor() {
         this.history = new GameHistory();
         this.publicInfo = new Map();
         this.settings = new Map();
-        this.players = [];
+        this.players = new Map();
     }
+
+    /*** inits ***/
 
     async init(n) {
         this.playernums = n;
@@ -31,7 +35,7 @@ class Game {
             let playerHandle = document.querySelector(`.player${i}`);
             let player = new GamePlayer(playerHandle, this.playernums, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i], this.publicInfo);
 
-            this.players.push(player);
+            this.players[his.settings["玩家名称"][i]] = player;
         }
     }
 
@@ -56,134 +60,120 @@ class Game {
     start() {
 
     }
-}
 
-class GamePlayer {
-    constructor(handle, playernums, name, points, pos, publicInfo) {
-        this.playernums = playernums;
-        this.initHandles(handle);
+    /*** tool functions ***/
 
-        this.initValues(name, points, pos, publicInfo);
+    ceilTo100(n) {
+        return Math.ceil(n / 100) * 100;
     }
 
-    initHandles(handle) {
-        this.handle = handle;
+    /*** events ***/
 
-        this.HrichiS = this.handle.querySelector(".richi-s > img");
-        this.Hpos = this.handle.querySelector(".pos > img");
-        this.Hdice = this.handle.querySelector(".dice > img");
-        this.Hpoints = this.handle.querySelector(".points");
-        this.Hname = this.handle.querySelector(".name");
-        this.Hround = this.handle.querySelector(".round");
-        this.HhonbaN = this.handle.querySelector(".honba-n > div");
-        this.HrichiN = this.handle.querySelector(".richi-n > div");
+    // TODO: how to add history
 
-        this.Hron = this.handle.querySelector(".ron");
-        this.Htsumo = this.handle.querySelector(".tsumo");
-        this.Hrichi = this.handle.querySelector(".richi");
+    tsumo(target) {
+        let base = calTsumo(target)["base"];
 
-        this.Hdice.addEventListener("click", (event) => { console.log(`${this.pos} clicked dice.`); });
-        this.Hpoints.addEventListener("click", (event) => { console.log(`${this.pos} clicked points.`); });
-        this.Hron.addEventListener("click", (event) => { console.log(`${this.pos} clicked ron.`); });
-        this.Htsumo.addEventListener("click", (event) => { console.log(`${this.pos} clicked tsumo.`); });
-        this.Hrichi.addEventListener("click", (event) => { console.log(`${this.pos} clicked richi.`); });
+        for (let [_, i] of this.players) {
+            if (target === i) {
+                if (target.pos === 0) {
+                    i.points += this.ceilTo100(base * 2) * 3 + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
+                }
+                else if (target.pos !== 0) {
+                    i.points += this.ceilTo100(base * 2) + this.ceilTo100(res) * 2 + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
+                }
+            }
+            else if (target !== i) {
+                if (target.pos === 0) {
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
+                }
+                else if (target.pos !== 0 && i.pos === 0) {
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
+                }
+                else if (target.pos !== 0 && i.pos !== 0) {
+                    i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
+                }
+            }
+        }
+
+        this.step("tsumo", target);
     }
 
-    initValues(name, points, pos, publicInfo) {
-        this.richiS = false;
-        this.pos = pos;
-        this.dice = pos === 0;
-        this.name = name;
-        this.points = points;
-        this.round = publicInfo["round"];
-        this.honbaN = publicInfo["honba"];
-        this.richiN = publicInfo["richi"];
+    calTsumo(target) {
+        let dialog = new Dialog("calTsumo");
+        return dialog.show(target);
     }
 
-    set richiS(n) {
-        this.VrichiS = n;
+    ron(target) {
+        let res = this.calRon(target);
+        let lose = this.findByName(res["lose"]);
+        let base = res["base"];
 
-        if (n === true)
-            this.HrichiS.classList.remove("hidden");
-        else if (n === false)
-            this.HrichiS.classList.add("hidden");
+        for (let [_, i] of this.players) {
+            if (i === target) {
+                if (target.pos === 0) {
+                    i.points += this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
+                }
+                else if (target.pos !== 0) {
+                    i.points += this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
+                }
+            }
+            else if (i === lose) {
+                if (target.pos === 0) {
+                    i.points -= this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo["honba"];
+                }
+                else if (target.pos !== 0) {
+                    i.points -= this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo["honba"];
+                }
+            }
+        }
+
+        this.step("ron", target, lose);
     }
 
-    get richiS() {
-        return this.VrichiS;
+    calRon(target) {
+        let dialog = new Dialog("calRon");
+        return dialog.show(target);
     }
 
-    set pos(n) {
-        this.Vpos = n;
-        this.posList = ["dou", "nan", "sei", "hoku"];
-        this.Hpos.src = `./static/img/${this.posList[n]}.png`;
+    exhaustive() {
+        let dialog = new Dialog("exhaustive");
+        let res = dialog.show(target);
+        let listen = res["listen"];
+        let noListen = res["noListen"];
+
+        if (listen.length > 0 && listen.length < 4) {
+            for (let name of listen) {
+                let i = this.players[name];
+                i.points += this.settings["不听罚符"][3 - listen.length];
+            }
+            for (let name of noListen) {
+                let i = this.players[name];
+                i.points -= this.settings["不听罚符"][3 - noListen.length];
+            }
+        }
+
+        this.step("exhaustive", listen.length);
     }
 
-    get pos() {
-        return this.Vpos;
-    }
-
-    set dice(n) {
-        if (n === true)
-            this.Hdice.classList.remove("hidden");
-        else if (n === false)
-            this.Hdice.classList.add("hidden");
-    }
-
-    set points(n) {
-        this.Vpoints = n;
-        this.Hpoints.innerHTML = n;
-    }
-
-    get points() {
-        return this.Vpoints;
-    }
-
-    set name(n) {
-        this.Vname = n;
-        this.Hname.innerHTML = n;
-    }
-
-    get name() {
-        return this.Vname;
-    }
-
-    set round(n) {
-        this.Vround = n;
-
-        this.roundList = ["东", "南", "西", "北"];
-
-        this.Hround.innerHTML = `${this.roundList[n / this.playernums]}${n % this.playernums + 1}局`;
-    }
-
-    set honbaN(n) {
-        this.HhonbaN.innerHTML = `&nbsp×&nbsp0${n}`;
-    }
-
-    set richiN(n) {
-        this.HrichiN.innerHTML = `&nbsp×&nbsp0${n}`;
-    }
-
-    ron() {
+    abortive() {
 
     }
 
-    tsumo() {
+    multiron() {
 
     }
 
-    richi() {
-        this.richiS = true;
+    nagashimangan() {
+
     }
 
-    readyForNext() {
-        this.richiS = false;
-    }
-}
 
-class GameHistory {
-    constructor() {
+    step(mode) {
+        // TODO： history
 
+
+        // TODO: update info
     }
 }
 
