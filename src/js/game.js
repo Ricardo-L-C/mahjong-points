@@ -8,14 +8,14 @@ class Game {
         this.players = [];
     }
 
-    init(n) {
+    async init(n) {
         this.playernums = n;
 
         this.publicInfo["round"] = 0;
         this.publicInfo["richi"] = 0;
         this.publicInfo["honba"] = 0;
 
-        this.initSettings();
+        await this.initSettings();
 
         this.initPlayers();
 
@@ -38,8 +38,7 @@ class Game {
     async initSettings() {
         let preSettings = await this.getPreSettings();
 
-        console.log(Object.keys(preSettings));
-
+        // TODO
         let dialog = new Dialog("settings");
         dialog.show();
 
