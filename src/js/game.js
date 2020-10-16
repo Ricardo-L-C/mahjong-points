@@ -31,7 +31,7 @@ class Game {
     }
 
     initPlayers() {
-        let playerHandles = document.querySelectorAll("player");
+        let playerHandles = document.querySelectorAll(".player");
 
         for (let i = 0; i < this.playerHandles; ++i) {
             let player = new GamePlayer(playerHandles[i]);
@@ -40,7 +40,7 @@ class Game {
     }
 
     initSettings() {
-        preSettings = this.getPreSettings();
+
     }
 
     async getPreSettings() {
