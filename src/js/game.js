@@ -1,6 +1,6 @@
 import Dialog from "./dialog.js"
 import GamePlayer from "./gamePlayer.js"
-import GameHistory from ""
+import GameHistory from "./gameHistory.js"
 
 class Game {
     constructor() {
@@ -35,7 +35,7 @@ class Game {
             let playerHandle = document.querySelector(`.player${i}`);
             let player = new GamePlayer(playerHandle, this.playernums, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i], this.publicInfo);
 
-            this.players[his.settings["玩家名称"][i]] = player;
+            this.players[this.settings["玩家名称"][i]] = player;
         }
     }
 
