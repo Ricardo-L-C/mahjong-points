@@ -70,6 +70,7 @@ class Game {
     /*** events ***/
 
     // TODO: how to add history
+    // TODO: test events
 
     tsumo(target) {
         let base = calTsumo(target)["base"];
@@ -95,8 +96,6 @@ class Game {
                 }
             }
         }
-
-        this.step("tsumo", target);
     }
 
     calTsumo(target) {
@@ -127,8 +126,6 @@ class Game {
                 }
             }
         }
-
-        this.step("ron", target, lose);
     }
 
     calRon(target) {
@@ -152,22 +149,68 @@ class Game {
                 i.points -= this.settings["不听罚符"][3 - noListen.length];
             }
         }
-
-        this.step("exhaustive", listen.length);
     }
 
     abortive() {
-
+        let dialog = new Dialog("abortive");
+        let res = dialog.show(target);
+        let mode = res["mode"];
     }
 
-    multiron() {
+    // TODO: 组合ron与multiRon
 
+    multiRon() {
+        if (!this.settings["头跳"]) {
+            let dialog = new Dialog("error");
+            return dialog.show("已开启头跳，不允许多家和。");
+        }
+
+        let dialog = new Dialog("multiRon");
+        let res = dialog.show();
+        let winner = res["winner"];
+        let loserNum = res["loserNum"];
+
+        if (loserNum == 3 && "三家和了" in this.settings["途中流局"]) {
+            let dialog = new Dialog("error");
+            return dialog.show("已开启三家流局，不允许三家和。");
+        }
+
+        for (let i = 0; i < loserNum; ++i) {
+            this.ron(winner);
+        }
     }
 
     nagashimangan() {
+        let dialog = new Dialog("nagashimangan");
+        let res = dialog.show();
+        let nameList = res["list"];
 
+        for (let i of nameList) {
+            let target = this.players[i];
+
+            for (let [_, i] of this.players) {
+                if (target === i) {
+                    if (target.pos === 0) {
+                        i.points += 4000 * 3;
+                    }
+                    else if (target.pos !== 0) {
+                        i.points += 8000;
+                    }
+                }
+                else if (target !== i) {
+                    if (target.pos === 0) {
+                        i.points -= 4000;
+                    }
+                    else if (target.pos !== 0 && i.pos === 0) {
+                        i.points -= 4000;
+                    }
+                    else if (target.pos !== 0 && i.pos !== 0) {
+                        i.points -= 2000;
+                    }
+                }
+            }
+        }
     }
-
 
     step(mode) {
         // TODO： history
