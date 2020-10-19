@@ -42,7 +42,8 @@ class Game {
     async initSettings() {
         let preSettings = await this.getPreSettings();
 
-        // TODO
+        this.commonPoints = preSettings["commonPoints"];
+
         let dialog = new Dialog("settings");
         dialog.show();
 
@@ -53,6 +54,7 @@ class Game {
 
     async getPreSettings() {
         let preSettings = await (await fetch('./static/json/config.json')).json();
+
 
         return preSettings[`${this.playernums}`];
     }
