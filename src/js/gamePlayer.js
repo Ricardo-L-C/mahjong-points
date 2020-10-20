@@ -29,16 +29,15 @@ export default class GamePlayer {
         this.Hpoints.addEventListener("click", (event) => { console.log(`${this.pos} clicked points.`); });
         this.Hron.addEventListener("click", (event) => { this.ron(); });
         this.Htsumo.addEventListener("click", (event) => { this.tsumo(); });
-        this.Hrichi.addEventListener("click", (event) => { this.richi(); });
+        this.Hrichi.addEventListener("click", (event) => { console.log(this); this.richi(); });
     }
 
     initValues(game, name, points, pos) {
         this.richiS = false;
-        this.pos = pos;
-        this.dice = pos === 0;
+        this.pos = pos + 1;
         this.name = name;
         this.points = points;
-        this.round = game.public["round"];
+        this.roundN = game.public["round"];
         this.honbaN = game.public["honba"];
         this.richiN = game.public["richi"];
     }
@@ -60,6 +59,7 @@ export default class GamePlayer {
         this.Vpos = n < 0 ? n + this.game.playernums : n;
         let posList = ["dou", "nan", "sei", "hoku"];
         this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
+        this.dice = this.Vpos === 0;
     }
 
     get pos() {
@@ -91,12 +91,11 @@ export default class GamePlayer {
         return this.Vname;
     }
 
-    set round(n) {
-        this.Vround = n;
-
+    set roundN(n) {
         let roundList = ["东", "南", "西", "北"];
 
         this.Hround.innerHTML = `${roundList[n / this.game.playernums]}${n % this.game.playernums + 1}局`;
+        this.pos -= 1;
     }
 
     set honbaN(n) {
@@ -131,6 +130,5 @@ export default class GamePlayer {
 
     step() {
         this.richiS = false;
-        this.pos -= 1;
     }
 }

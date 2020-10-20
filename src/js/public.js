@@ -10,7 +10,7 @@ export default class Public {
         this.Vround = n;
 
         for (let [_, i] of this.game.players) {
-            i.round = n;
+            i.roundN = n;
         }
     }
 
@@ -22,7 +22,7 @@ export default class Public {
         this.Vhonba = n;
 
         for (let [_, i] of this.game.players) {
-            i.honba = n;
+            i.honbaN = n;
         }
     }
 
@@ -34,7 +34,7 @@ export default class Public {
         this.Vrichi = n;
 
         for (let [_, i] of this.game.players) {
-            i.richi = n;
+            i.richiN = n;
         }
     }
 
