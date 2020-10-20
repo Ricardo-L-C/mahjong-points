@@ -3,7 +3,7 @@ import Dialog from "./dialog.js";
 export default class GamePlayer {
     constructor(handle, game, name, points, pos) {
         this.game = game;
-        this.playernums = game.playernums;
+
         this.initHandles(handle);
 
         this.initValues(game, name, points, pos);
@@ -57,8 +57,8 @@ export default class GamePlayer {
     }
 
     set pos(n) {
-        this.Vpos = n > 3 ? n - 4 : n;
-        let posList = ["hoku", "sei", "nan", "dou"];
+        this.Vpos = n < 0 ? n + this.game.playernums : n;
+        let posList = ["dou", "nan", "sei", "hoku"];
         this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
     }
 
@@ -96,7 +96,7 @@ export default class GamePlayer {
 
         let roundList = ["东", "南", "西", "北"];
 
-        this.Hround.innerHTML = `${roundList[n / this.playernums]}${n % this.playernums + 1}局`;
+        this.Hround.innerHTML = `${roundList[n / this.game.playernums]}${n % this.game.playernums + 1}局`;
     }
 
     set honbaN(n) {
@@ -131,6 +131,6 @@ export default class GamePlayer {
 
     step() {
         this.richiS = false;
-        this.pos += 1;
+        this.pos -= 1;
     }
 }
