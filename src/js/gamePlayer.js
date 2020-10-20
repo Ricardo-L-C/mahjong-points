@@ -1,10 +1,12 @@
+import Dialog from "./dialog";
 
 export default class GamePlayer {
-    constructor(handle, playernums, name, points, pos, publicInfo) {
-        this.playernums = playernums;
+    constructor(handle, game, name, points, pos) {
+        this.game = game;
+        this.playernums = game.playernums;
         this.initHandles(handle);
 
-        this.initValues(name, points, pos, publicInfo);
+        this.initValues(game, name, points, pos);
     }
 
     initHandles(handle) {
@@ -25,20 +27,20 @@ export default class GamePlayer {
 
         this.Hdice.addEventListener("click", (event) => { console.log(`${this.pos} clicked dice.`); });
         this.Hpoints.addEventListener("click", (event) => { console.log(`${this.pos} clicked points.`); });
-        this.Hron.addEventListener("click", (event) => { console.log(`${this.pos} clicked ron.`); });
-        this.Htsumo.addEventListener("click", (event) => { console.log(`${this.pos} clicked tsumo.`); });
-        this.Hrichi.addEventListener("click", (event) => { console.log(`${this.pos} clicked richi.`); });
+        this.Hron.addEventListener("click", (event) => { this.ron(); });
+        this.Htsumo.addEventListener("click", (event) => { this.tsumo(); });
+        this.Hrichi.addEventListener("click", (event) => { this.richi(); });
     }
 
-    initValues(name, points, pos, publicInfo) {
+    initValues(game, name, points, pos) {
         this.richiS = false;
         this.pos = pos;
         this.dice = pos === 0;
         this.name = name;
         this.points = points;
-        this.round = publicInfo["round"];
-        this.honbaN = publicInfo["honba"];
-        this.richiN = publicInfo["richi"];
+        this.round = game.publicInfo["round"];
+        this.honbaN = game.publicInfo["honba"];
+        this.richiN = game.publicInfo["richi"];
     }
 
     set richiS(n) {
@@ -55,9 +57,9 @@ export default class GamePlayer {
     }
 
     set pos(n) {
-        this.Vpos = n;
-        this.posList = ["dou", "nan", "sei", "hoku"];
-        this.Hpos.src = `./static/img/${this.posList[n]}.png`;
+        this.Vpos = n > 3 ? n - 4 : n;
+        posList = ["dou", "nan", "sei", "hoku"];
+        this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
     }
 
     get pos() {
@@ -92,9 +94,9 @@ export default class GamePlayer {
     set round(n) {
         this.Vround = n;
 
-        this.roundList = ["东", "南", "西", "北"];
+        roundList = ["东", "南", "西", "北"];
 
-        this.Hround.innerHTML = `${this.roundList[n / this.playernums]}${n % this.playernums + 1}局`;
+        this.Hround.innerHTML = `${roundList[n / this.playernums]}${n % this.playernums + 1}局`;
     }
 
     set honbaN(n) {
@@ -106,18 +108,26 @@ export default class GamePlayer {
     }
 
     ron() {
-
+        this.game.ron(this);
     }
 
     tsumo() {
-
+        this.game.tsumo(this);
     }
 
     richi() {
+        if (this.points < this.game.settings["立直棒点数"] && this.game.settings["击飞"]) {
+            let dialog = new Dialog("error");
+            return dialog.show("点数不足，无法立直");
+        }
+
+        this.points -= this.game.settings["立直棒点数"];
+        this.game.publicInfo["richi"] += 1;
         this.richiS = true;
     }
 
-    readyForNext() {
+    step() {
         this.richiS = false;
+        this.pos += 1;
     }
 }

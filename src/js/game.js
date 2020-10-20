@@ -27,13 +27,30 @@ class Game {
     }
 
     initBoard() {
+        document.querySelector(".exhaustive").addEventListener((event) => {
+            this.exhaustive();
+        });
+        document.querySelector(".abortive").addEventListener((event) => {
+            this.abortive();
+        });
+        document.querySelector(".multiron").addEventListener((event) => {
+            this.multiRon();
+        });
+        document.querySelector(".nagashimangan").addEventListener((event) => {
+            this.nagashimangan();
+        });
+        document.querySelector(".pao").addEventListener((event) => {
 
+        });
+        document.querySelector(".history").addEventListener((event) => {
+
+        });
     }
 
     initPlayers() {
         for (let i = 0; i < this.playernums; ++i) {
             let playerHandle = document.querySelector(`.player${i}`);
-            let player = new GamePlayer(playerHandle, this.playernums, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i], this.publicInfo);
+            let player = new GamePlayer(playerHandle, this, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i]);
 
             this.players[this.settings["玩家名称"][i]] = player;
         }
@@ -214,10 +231,11 @@ class Game {
     }
 
     step(mode) {
-        // TODO： history
 
+    }
 
-        // TODO: update info
+    endCheck() {
+
     }
 }
 
