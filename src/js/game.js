@@ -124,6 +124,8 @@ class Game {
         else {
             this.lastEndMode |= 0b00000100;
         }
+
+        this.step();
     }
 
     calTsumo(target) {
@@ -196,6 +198,8 @@ class Game {
         if (!(this.lastEndMode & 0b00100000)) {
             this.lastEndMode |= 0b00010000;
         }
+
+        this.step();
     }
 
     abortive() {
@@ -204,9 +208,11 @@ class Game {
         let mode = res["mode"];
 
         this.lastEndMode |= 0b10000000;
+
+        this.step();
     }
 
-    // TODO: 组合ron与multiRon
+    // TODO: fix 多家和场供重复计算
 
     multiRon() {
         if (!this.settings["头跳"]) {
@@ -227,10 +233,14 @@ class Game {
         for (let i = 0; i < loserNum; ++i) {
             this.ron(winner);
         }
+
+        this.step();
     }
 
     singleRon(target) {
         this.ron(target);
+
+        this.step();
     }
 
     nagashimangan() {
@@ -264,6 +274,8 @@ class Game {
             }
         }
         this.lastEndMode |= 0b01000000;
+
+        this.step();
     }
 
     step() {
