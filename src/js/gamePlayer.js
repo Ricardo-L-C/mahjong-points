@@ -58,7 +58,7 @@ export default class GamePlayer {
 
     set pos(n) {
         this.Vpos = n > 3 ? n - 4 : n;
-        posList = ["dou", "nan", "sei", "hoku"];
+        let posList = ["dou", "nan", "sei", "hoku"];
         this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
     }
 
@@ -94,7 +94,7 @@ export default class GamePlayer {
     set round(n) {
         this.Vround = n;
 
-        roundList = ["东", "南", "西", "北"];
+        let roundList = ["东", "南", "西", "北"];
 
         this.Hround.innerHTML = `${roundList[n / this.playernums]}${n % this.playernums + 1}局`;
     }
