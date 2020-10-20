@@ -8,6 +8,9 @@ class Game {
         this.publicInfo = new Map();
         this.settings = new Map();
         this.players = new Map();
+
+        // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
+        this.lastEndMode = 0b00000000;
     }
 
     /*** inits ***/
@@ -230,12 +233,58 @@ class Game {
         }
     }
 
-    step(mode) {
+    step() {
+        // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
+        if (this.lastEndMode | 0b00001111) {
+            this.publicInfo["richi"] = 0;
+        }
+        if (this.lastEndMode | 0b11111010) {
+            this.publicInfo["honba"] += 1;
+        }
+        else if (this.lastEndMode | 0b00000101) {
+            this.publicInfo["honba"] = 0;
+        }
+        if ((this.lastEndMode | 0b00010101) && !(this.lastEndMode | 0b00100010)) {
+            this.publicInfo["round"] += 1;
+        }
 
+        this.lastEndMode = 0;
     }
 
     endCheck() {
+        let length;
+        if (this.settings["长度"] === "东风") {
+            length = this.playernums;
+        }
+        else if (this.settings["长度"] === "半庄") {
+            length = this.playernums * 2;
+        }
+        else if (this.settings["长度"] === "全庄") {
+            length = this.playernums * 4;
+        }
 
+        // 击飞
+        if (this.settings["击飞"]) {
+            for (let [_, i] of this.players) {
+                if (i.points < 0) {
+                    return true;
+                }
+            }
+        }
+
+        // 天边
+        if (this.settings["天边"] > 0) {
+            for (let [_, i] of this.players) {
+                if (i.points >= this.settings["天边"]) {
+                    return true;
+                }
+            }
+        }
+
+        // 长度
+        if (this.publicInfo["round"] >= length) {
+
+        }
     }
 }
 
