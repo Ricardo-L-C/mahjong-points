@@ -58,7 +58,7 @@ export default class GamePlayer {
 
     set pos(n) {
         this.Vpos = n > 3 ? n - 4 : n;
-        let posList = ["dou", "nan", "sei", "hoku"];
+        let posList = ["hoku", "sei", "nan", "dou"];
         this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
     }
 
