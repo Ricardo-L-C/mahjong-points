@@ -30,19 +30,19 @@ class Game {
     }
 
     initBoard() {
-        (document.querySelector(".exhaustive")).addEventListener((event) => {
+        (document.querySelector(".exhaustive")).addEventListener("click", (event) => {
             this.exhaustive();
         });
-        (document.querySelector(".abortive")).addEventListener((event) => {
+        (document.querySelector(".abortive")).addEventListener("click", (event) => {
             this.abortive();
         });
-        (document.querySelector(".multiron")).addEventListener((event) => {
+        (document.querySelector(".multiron")).addEventListener("click", (event) => {
             this.multiRon();
         });
-        (document.querySelector(".pao")).addEventListener((event) => {
+        (document.querySelector(".pao")).addEventListener("click", (event) => {
 
         });
-        (document.querySelector(".history")).addEventListener((event) => {
+        (document.querySelector(".history")).addEventListener("click", (event) => {
 
         });
     }
