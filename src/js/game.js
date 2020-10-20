@@ -117,6 +117,13 @@ class Game {
                 }
             }
         }
+
+        if (target.pos === 0) {
+            this.lastEndMode |= 0b00001000;
+        }
+        else {
+            this.lastEndMode |= 0b00000100;
+        }
     }
 
     calTsumo(target) {
@@ -147,6 +154,13 @@ class Game {
                 }
             }
         }
+
+        if (target.pos === 0) {
+            this.lastEndMode |= 0b00000010;
+        }
+        else {
+            this.lastEndMode |= 0b00000001;
+        }
     }
 
     calRon(target) {
@@ -160,15 +174,27 @@ class Game {
         let listen = res["listen"];
         let noListen = res["noListen"];
 
+        if (this.settings["流局满贯"] && res["nagashimangan"]) {
+            this.nagashimangan();
+        }
+
         if (listen.length > 0 && listen.length < 4) {
             for (let name of listen) {
                 let i = this.players[name];
                 i.points += this.settings["不听罚符"][3 - listen.length];
+
+                if (i.pos === 0) {
+                    this.lastEndMode |= 0b00100000;
+                }
             }
             for (let name of noListen) {
                 let i = this.players[name];
                 i.points -= this.settings["不听罚符"][3 - noListen.length];
             }
+        }
+
+        if (!(this.lastEndMode & 0b00100000)) {
+            this.lastEndMode |= 0b00010000;
         }
     }
 
@@ -176,6 +202,8 @@ class Game {
         let dialog = new Dialog("abortive");
         let res = dialog.show(target);
         let mode = res["mode"];
+
+        this.lastEndMode |= 0b10000000;
     }
 
     // TODO: 组合ron与multiRon
@@ -199,6 +227,10 @@ class Game {
         for (let i = 0; i < loserNum; ++i) {
             this.ron(winner);
         }
+    }
+
+    singleRon(target) {
+        this.ron(target);
     }
 
     nagashimangan() {
@@ -231,20 +263,21 @@ class Game {
                 }
             }
         }
+        this.lastEndMode |= 0b01000000;
     }
 
     step() {
         // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
-        if (this.lastEndMode | 0b00001111) {
+        if (this.lastEndMode & 0b00001111) {
             this.publicInfo["richi"] = 0;
         }
-        if (this.lastEndMode | 0b11111010) {
+        if (this.lastEndMode & 0b11111010) {
             this.publicInfo["honba"] += 1;
         }
-        else if (this.lastEndMode | 0b00000101) {
+        else if (this.lastEndMode & 0b00000101) {
             this.publicInfo["honba"] = 0;
         }
-        if ((this.lastEndMode | 0b00010101) && !(this.lastEndMode | 0b00100010)) {
+        if ((this.lastEndMode & 0b00010101) && !(this.lastEndMode & 0b00100010)) {
             this.publicInfo["round"] += 1;
         }
 

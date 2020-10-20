@@ -108,7 +108,7 @@ export default class GamePlayer {
     }
 
     ron() {
-        this.game.ron(this);
+        this.game.singleRon(this);
     }
 
     tsumo() {
