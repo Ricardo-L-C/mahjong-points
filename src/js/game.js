@@ -212,7 +212,7 @@ class Game {
     // TODO: fix 多家和场供重复计算
 
     multiRon() {
-        if (!this.settings["头跳"]) {
+        if (this.settings["头跳"]) {
             let dialog = new Dialog("error");
             return dialog.show("已开启头跳，不允许多家和。");
         }
