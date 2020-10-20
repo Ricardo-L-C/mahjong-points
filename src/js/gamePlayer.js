@@ -92,6 +92,7 @@ export default class GamePlayer {
     }
 
     set round(n) {
+        console.log(`set round ${n}`);
         this.Vround = n;
 
         let roundList = ["东", "南", "西", "北"];
@@ -100,11 +101,15 @@ export default class GamePlayer {
     }
 
     set honbaN(n) {
-        this.HhonbaN.innerHTML = `&nbsp×&nbsp0${n}`;
+        console.log(`set honba ${n}`);
+
+        this.HhonbaN.innerHTML = `&nbsp×&nbsp${n}`;
     }
 
     set richiN(n) {
-        this.HrichiN.innerHTML = `&nbsp×&nbsp0${n}`;
+        console.log(`set richi ${n}`);
+
+        this.HrichiN.innerHTML = `&nbsp×&nbsp${n}`;
     }
 
     ron() {
