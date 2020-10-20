@@ -18,9 +18,9 @@ class Game {
     async init(n) {
         this.playernums = n;
 
-        this.publicInfo.set("round", 0);
-        this.publicInfo.set("richi", 0);
-        this.publicInfo.set("honba", 0);
+        this.publicInfo["round"] = 0;
+        this.publicInfo["richi"] = 0;
+        this.publicInfo["honba"] = 0;
 
         await this.initSettings();
 
@@ -96,21 +96,21 @@ class Game {
         for (let [_, i] of this.players) {
             if (target === i) {
                 if (target.pos === 0) {
-                    i.points += this.ceilTo100(base * 2) * 3 + this.settings["场棒点数"] * this.publicInfo.get("honba") + this.settings["立直榜点数"] * this.publicInfo.get("richi");
+                    i.points += this.ceilTo100(base * 2) * 3 + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
                 }
                 else if (target.pos !== 0) {
-                    i.points += this.ceilTo100(base * 2) + this.ceilTo100(res) * 2 + this.settings["场棒点数"] * this.publicInfo.get("honba") + this.settings["立直榜点数"] * this.publicInfo.get("richi");
+                    i.points += this.ceilTo100(base * 2) + this.ceilTo100(res) * 2 + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
                 }
             }
             else if (target !== i) {
                 if (target.pos === 0) {
-                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo.get("honba") / (this.playernums - 1);
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
                 }
                 else if (target.pos !== 0 && i.pos === 0) {
-                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo.get("honba") / (this.playernums - 1);
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
                 }
                 else if (target.pos !== 0 && i.pos !== 0) {
-                    i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.publicInfo.get("honba") / (this.playernums - 1);
+                    i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.publicInfo["honba"] / (this.playernums - 1);
                 }
             }
         }
@@ -138,18 +138,18 @@ class Game {
         for (let [_, i] of this.players) {
             if (i === target) {
                 if (target.pos === 0) {
-                    i.points += this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo.get("honba") + this.settings["立直榜点数"] * this.publicInfo.get("richi");
+                    i.points += this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
                 }
                 else if (target.pos !== 0) {
-                    i.points += this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo.get("honba") + this.settings["立直榜点数"] * this.publicInfo.get("richi");
+                    i.points += this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo["honba"] + this.settings["立直榜点数"] * this.publicInfo["richi"];
                 }
             }
             else if (i === lose) {
                 if (target.pos === 0) {
-                    i.points -= this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo.get("honba");
+                    i.points -= this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.publicInfo["honba"];
                 }
                 else if (target.pos !== 0) {
-                    i.points -= this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo.get("honba");
+                    i.points -= this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.publicInfo["honba"];
                 }
             }
         }
@@ -278,13 +278,13 @@ class Game {
     step() {
         // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
         if (this.lastEndMode & 0b00001111) {
-            this.publicInfo.get("richi") = 0;
+            this.publicInfo["richi"] = 0;
         }
         if (this.lastEndMode & 0b11111010) {
-            this.publicInfo.get("honba") += 1;
+            this.publicInfo["honba"] += 1;
         }
         else if (this.lastEndMode & 0b00000101) {
-            this.publicInfo.get("honba") = 0;
+            this.publicInfo["honba"] = 0;
         }
         if ((this.lastEndMode & 0b00010101) && !(this.lastEndMode & 0b00100010)) {
             this.publicInfo["round"] += 1;
