@@ -202,7 +202,7 @@ class Game {
     abortive() {
         let dialog = new Dialog("abortive");
         let res = dialog.show();
-        let mode = res["mode"];
+        // let mode = res["mode"];
 
         this.lastEndMode |= 0b10000000;
 
@@ -291,6 +291,10 @@ class Game {
         }
 
         this.lastEndMode = 0;
+
+        for (let [_, i] of this.players) {
+            i.step();
+        }
     }
 
     endCheck() {

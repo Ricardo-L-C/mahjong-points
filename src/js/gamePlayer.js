@@ -120,6 +120,9 @@ export default class GamePlayer {
             let dialog = new Dialog("error");
             return dialog.show("点数不足，无法立直");
         }
+        else if (this.richiS === true) {
+            return;
+        }
 
         this.points -= this.game.settings["立直棒点数"];
         this.game.publicInfo["richi"] += 1;
