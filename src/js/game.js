@@ -169,7 +169,7 @@ class Game {
 
     exhaustive() {
         let dialog = new Dialog("exhaustive");
-        let res = dialog.show(target);
+        let res = dialog.show();
         let listen = res["listen"];
         let noListen = res["noListen"];
 
@@ -201,7 +201,7 @@ class Game {
 
     abortive() {
         let dialog = new Dialog("abortive");
-        let res = dialog.show(target);
+        let res = dialog.show();
         let mode = res["mode"];
 
         this.lastEndMode |= 0b10000000;
