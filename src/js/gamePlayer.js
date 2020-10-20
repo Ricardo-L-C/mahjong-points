@@ -1,4 +1,4 @@
-import Dialog from "./dialog";
+import Dialog from "./dialog.js";
 
 export default class GamePlayer {
     constructor(handle, game, name, points, pos) {
