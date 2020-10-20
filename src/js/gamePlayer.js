@@ -38,9 +38,9 @@ export default class GamePlayer {
         this.dice = pos === 0;
         this.name = name;
         this.points = points;
-        this.round = game.publicInfo["round"];
-        this.honbaN = game.publicInfo["honba"];
-        this.richiN = game.publicInfo["richi"];
+        this.round = game.public["round"];
+        this.honbaN = game.public["honba"];
+        this.richiN = game.public["richi"];
     }
 
     set richiS(n) {
@@ -125,7 +125,7 @@ export default class GamePlayer {
         }
 
         this.points -= this.game.settings["立直棒点数"];
-        this.game.publicInfo["richi"] += 1;
+        this.game.public["richi"] += 1;
         this.richiS = true;
     }
 
