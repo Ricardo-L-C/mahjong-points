@@ -30,22 +30,19 @@ class Game {
     }
 
     initBoard() {
-        document.querySelector(".exhaustive").addEventListener((event) => {
+        (document.querySelector(".exhaustive")).addEventListener((event) => {
             this.exhaustive();
         });
-        document.querySelector(".abortive").addEventListener((event) => {
+        (document.querySelector(".abortive")).addEventListener((event) => {
             this.abortive();
         });
-        document.querySelector(".multiron").addEventListener((event) => {
+        (document.querySelector(".multiron")).addEventListener((event) => {
             this.multiRon();
         });
-        document.querySelector(".nagashimangan").addEventListener((event) => {
-            this.nagashimangan();
-        });
-        document.querySelector(".pao").addEventListener((event) => {
+        (document.querySelector(".pao")).addEventListener((event) => {
 
         });
-        document.querySelector(".history").addEventListener((event) => {
+        (document.querySelector(".history")).addEventListener((event) => {
 
         });
     }
