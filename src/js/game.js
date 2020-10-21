@@ -20,7 +20,8 @@ class Game {
         let dialog = new Dialog("beginning");
         let res = dialog.show();
 
-        this.playernums = res["playernums"];
+        this.playerNum = res["playerNum"];
+        this.playerNames = res["playerNames"];
 
         await this.initSettings();
 
@@ -48,11 +49,11 @@ class Game {
     }
 
     initPlayers() {
-        for (let i = 0; i < this.playernums; ++i) {
+        for (let i = 0; i < this.playerNum; ++i) {
             let playerHandle = document.querySelector(`.player${i}`);
-            let player = new GamePlayer(playerHandle, this, this.settings["玩家名称"][i], this.settings["起始点数"][i], this.settings["起始位置"][i]);
+            let player = new GamePlayer(playerHandle, this, this.playerNames[i], this.settings["起始点数"][i], i);
 
-            this.players.set(this.settings["玩家名称"][i], player);
+            this.players.set(this.playerNames[i], player);
         }
     }
 
@@ -62,17 +63,15 @@ class Game {
         this.commonPoints = preSettings["commonPoints"];
 
         let dialog = new Dialog("settings");
-        dialog.show();
+        let res = dialog.show();
 
         this.settings = preSettings["天凤段位战"];
-        this.settings["玩家名称"] = ["player0", "player1", "player2", "player3"];
-        this.settings["起始位置"] = [0, 1, 2, 3];
     }
 
     async getPreSettings() {
         let preSettings = await (await fetch('./static/json/config.json')).json();
 
-        return preSettings[`${this.playernums}`];
+        return preSettings[`${this.playerNum}`];
     }
 
     start() {
@@ -104,13 +103,13 @@ class Game {
             }
             else if (target !== i) {
                 if (target.pos === 0) {
-                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playernums - 1);
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
                 }
                 else if (target.pos !== 0 && i.pos === 0) {
-                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playernums - 1);
+                    i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
                 }
                 else if (target.pos !== 0 && i.pos !== 0) {
-                    i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.public["honba"] / (this.playernums - 1);
+                    i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
                 }
             }
         }
@@ -130,7 +129,8 @@ class Game {
         return dialog.show(target);
     }
 
-    ron(target) {
+    // TODO: add loser
+    ron(target, loser = null) {
         let res = this.calRon(target);
         let lose = this.findByName(res["lose"]);
         let base = res["base"];
@@ -169,9 +169,9 @@ class Game {
 
     exhaustive() {
         let dialog = new Dialog("exhaustive");
-        let res = dialog.show();
+        let res = dialog.show(this.playerNames);
         let listen = res["listen"];
-        let noListen = res["noListen"];
+        let noListen = this.playerNames.filter(x => !listen.includes(x));
 
         if (this.settings["流局满贯"] && res["nagashimangan"]) {
             this.nagashimangan();
@@ -201,7 +201,7 @@ class Game {
 
     abortive() {
         let dialog = new Dialog("abortive");
-        let res = dialog.show();
+        let res = dialog.show(this.settings["途中流局"]);
         // let mode = res["mode"];
 
         this.lastEndMode |= 0b10000000;
@@ -218,17 +218,17 @@ class Game {
         }
 
         let dialog = new Dialog("multiRon");
-        let res = dialog.show();
+        let res = dialog.show(this.playerNames);
         let winner = res["winner"];
-        let loserNum = res["loserNum"];
+        let loser = res["loser"];
 
-        if (loserNum == 3 && "三家和了" in this.settings["途中流局"]) {
+        if (winner.length == 3 && this.settings["途中流局"].includes("三家和了")) {
             let dialog = new Dialog("error");
             return dialog.show("已开启三家流局，不允许三家和。");
         }
 
-        for (let i = 0; i < loserNum; ++i) {
-            this.ron(winner);
+        for (let i of winner) {
+            this.ron(winner, loser);
         }
 
         this.step();
@@ -242,7 +242,7 @@ class Game {
 
     nagashimangan() {
         let dialog = new Dialog("nagashimangan");
-        let res = dialog.show();
+        let res = dialog.show(this.playerNames);
         let nameList = res["list"];
 
         for (let i of nameList) {
@@ -300,13 +300,13 @@ class Game {
     endCheck() {
         let length;
         if (this.settings["长度"] === "东风") {
-            length = this.playernums;
+            length = this.playerNum;
         }
         else if (this.settings["长度"] === "半庄") {
-            length = this.playernums * 2;
+            length = this.playerNum * 2;
         }
         else if (this.settings["长度"] === "全庄") {
-            length = this.playernums * 4;
+            length = this.playerNum * 4;
         }
 
         // 击飞
