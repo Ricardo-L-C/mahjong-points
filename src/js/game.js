@@ -220,7 +220,7 @@ class Game {
         let dialog = new Dialog("multiRon");
         let res = dialog.show(this.playerNames);
         let winner = res["winner"];
-        let loser = res["loser"];
+        let loser = this.players.get(res["loser"]);
 
         if (winner.length == 3 && this.settings["途中流局"].includes("三家和了")) {
             let dialog = new Dialog("error");
@@ -228,7 +228,7 @@ class Game {
         }
 
         for (let i of winner) {
-            this.ron(winner, loser);
+            this.ron(this.players.get(i), loser);
         }
 
         this.step();
