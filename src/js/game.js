@@ -172,6 +172,10 @@ class Game {
     exhaustive() {
         let dialog = new Dialog("exhaustive");
         let res = dialog.show(this.playerNames);
+
+        if (res["cancel"])
+            return;
+
         let listen = res["listen"];
         let noListen = this.playerNames.filter(x => !listen.includes(x));
 
@@ -204,6 +208,10 @@ class Game {
     abortive() {
         let dialog = new Dialog("abortive");
         let res = dialog.show(this.settings["途中流局"]);
+
+        if (res["cancel"])
+            return;
+
         // let mode = res["mode"];
 
         this.lastEndMode |= 0b10000000;
@@ -221,6 +229,10 @@ class Game {
 
         let dialog = new Dialog("multiRon");
         let res = dialog.show(this.playerNames);
+
+        if (res["cancel"])
+            return;
+
         let winner = res["winner"];
         let loser = this.players.get(res["loser"]);
 
@@ -245,6 +257,10 @@ class Game {
     nagashimangan() {
         let dialog = new Dialog("nagashimangan");
         let res = dialog.show(this.playerNames);
+
+        if (res["cancel"])
+            return;
+
         let nameList = res["list"];
 
         for (let i of nameList) {
