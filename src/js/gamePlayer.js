@@ -29,7 +29,7 @@ export default class GamePlayer {
         this.Hpoints.addEventListener("click", (event) => { console.log(`${this.pos} clicked points.`); });
         this.Hron.addEventListener("click", (event) => { this.ron(); });
         this.Htsumo.addEventListener("click", (event) => { this.tsumo(); });
-        this.Hrichi.addEventListener("click", (event) => { console.log(this); this.richi(); });
+        this.Hrichi.addEventListener("click", (event) => { this.richi(); });
     }
 
     initValues(game, name, points, pos) {

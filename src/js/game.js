@@ -63,9 +63,11 @@ class Game {
         this.commonPoints = preSettings["commonPoints"];
 
         let dialog = new Dialog("settings");
-        let res = dialog.show();
+        let res = dialog.show(preSettings["rules"]);
 
-        this.settings = preSettings["天凤段位战"];
+        // this.settings = res["settings"];
+
+        this.settings = preSettings["rules"]["天凤段位战"];
     }
 
     async getPreSettings() {
