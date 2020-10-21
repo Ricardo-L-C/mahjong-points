@@ -3,7 +3,7 @@ import game from "./game.js"
 
 
 window.onload = async () => {
-    await game.init(4);
+    await game.init();
 
     game.start();
 }

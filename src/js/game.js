@@ -16,8 +16,11 @@ class Game {
 
     /*** inits ***/
 
-    async init(n) {
-        this.playernums = n;
+    async init() {
+        let dialog = new Dialog("beginning");
+        let res = dialog.show();
+
+        this.playernums = res["playernums"];
 
         await this.initSettings();
 
