@@ -298,35 +298,30 @@ class Game {
         if (this.lastEndMode & 0b00001111) {
             this.public["richi"] = 0;
         }
-        if (this.lastEndMode & 0b11111010) {
+
+        if ((this.lastEndMode & 0b10000000) ||
+            (this.lastEndMode & 0b00100000) && this.settings["听牌连庄"] ||
+            (this.lastEndMode & 0b00001010) && this.settings["和牌连庄"]) {
             this.public["honba"] += 1;
         }
-        else if (this.lastEndMode & 0b00000101) {
-            this.public["honba"] = 0;
-        }
-        if ((this.lastEndMode & 0b00010101) && !(this.lastEndMode & 0b00100010)) {
+        else if ((this.lastEndMode & 0b00010000) ||
+            (this.lastEndMode & 0b00100000) && !this.settings["听牌连庄"]) {
+            this.public["honba"] += 1;
             this.public["round"] += 1;
         }
-
-        this.lastEndMode = 0;
+        else {
+            this.public["honba"] = 0;
+            this.public["round"] += 1;
+        }
 
         for (let [_, i] of this.players) {
             i.step();
         }
+
+        this.lastEndMode = 0;
     }
 
     endCheck() {
-        let length;
-        if (this.settings["长度"] === "东风") {
-            length = this.playerNum;
-        }
-        else if (this.settings["长度"] === "半庄") {
-            length = this.playerNum * 2;
-        }
-        else if (this.settings["长度"] === "全庄") {
-            length = this.playerNum * 4;
-        }
-
         // 击飞
         if (this.settings["击飞"]) {
             for (let [_, i] of this.players) {
@@ -346,9 +341,40 @@ class Game {
         }
 
         // 长度
+        let length;
+
+        if (this.settings["长度"] === "全庄") {
+            length = this.playerNum * 4 - 1;
+
+            if (this.public["round"] > length) {
+                endGame();
+            }
+            else if (this.public["round"] == length) {
+                // oya ten
+                if (this.lastEndMode &= 0b00100000 && !this.settings["听牌终局"]) {
+                    return false;
+                }
+                // oya ron
+                if (this.lastEndMode &= 0b00001010 && !this.settings["和了终局"]) {
+                    return false;
+                }
+            }
+        }
+
+        if (this.settings["长度"] === "东风") {
+            length = this.playerNum;
+        }
+        else if (this.settings["长度"] === "半庄") {
+            length = this.playerNum * 2;
+        }
+
         if (this.public["round"] >= length) {
 
         }
+    }
+
+    endGame() {
+
     }
 }
 
