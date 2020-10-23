@@ -342,35 +342,40 @@ class Game {
 
         // 长度
         let length;
+        let maxLength;
 
         if (this.settings["长度"] === "全庄") {
-            length = this.playerNum * 4 - 1;
-
-            if (this.public["round"] > length) {
-                endGame();
-            }
-            else if (this.public["round"] == length) {
-                // oya ten
-                if (this.lastEndMode &= 0b00100000 && !this.settings["听牌终局"]) {
-                    return false;
-                }
-                // oya ron
-                if (this.lastEndMode &= 0b00001010 && !this.settings["和了终局"]) {
-                    return false;
-                }
-            }
+            max = length = this.playerNum * 4 - 1;
         }
 
-        if (this.settings["长度"] === "东风") {
-            length = this.playerNum;
+        else if (this.settings["长度"] === "东风") {
+            length = this.playerNum - 1;
+            maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
         }
         else if (this.settings["长度"] === "半庄") {
-            length = this.playerNum * 2;
+            length = this.playerNum * 2 - 1;
+            maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
         }
 
-        if (this.public["round"] >= length) {
+        if (this.public["round"] > maxLength) {
+            endGame();
+        }
+
+        if (this.public["round"] > length && this.settings["南入/西入"]) {
 
         }
+
+        if (this.public["round"] == length) {
+            // oya ten
+            if (this.lastEndMode &= 0b00100000 && !this.settings["听牌终局"]) {
+                return false;
+            }
+            // oya ron
+            if (this.lastEndMode &= 0b00001010 && !this.settings["和了终局"]) {
+                return false;
+            }
+        }
+
     }
 
     endGame() {

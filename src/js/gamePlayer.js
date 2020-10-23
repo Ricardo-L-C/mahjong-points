@@ -34,6 +34,7 @@ export default class GamePlayer {
 
     initValues(game, name, points, pos) {
         this.richiS = false;
+        this.beginPos = pos;
         this.pos = pos + 1;
         this.name = name;
         this.points = points;
