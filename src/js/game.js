@@ -8,7 +8,7 @@ class Game {
         this.history = new GameHistory();
         this.public = new Public(this);
         this.settings = {};
-        this.players = new Map();
+        this.players = [];
 
         // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
         this.lastEndMode = 0b00000000;
@@ -53,7 +53,7 @@ class Game {
             let playerHandle = document.querySelector(`.player${i}`);
             let player = new GamePlayer(playerHandle, this, this.playerNames[i], this.settings["起始点数"][i], i);
 
-            this.players.set(this.playerNames[i], player);
+            this.players.append(player);
         }
     }
 
@@ -86,6 +86,31 @@ class Game {
         return Math.ceil(n / 100) * 100;
     }
 
+    getPlayer(name) {
+        for (let i of this.players) {
+            if (i.name === name) {
+                return i;
+            }
+        }
+    }
+
+    sort() {
+        this.players.sort((x, y) => {
+            if (x.points > y.points) {
+                return 1;
+            }
+            else if (x.points < y.points) {
+                return -1;
+            }
+            else if (x.beginPos < y.beginPos) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        });
+    }
+
     /*** events ***/
 
     // TODO: how to add history
@@ -94,7 +119,7 @@ class Game {
     tsumo(target) {
         let base = calTsumo(target)["base"];
 
-        for (let [_, i] of this.players) {
+        for (let i of this.players) {
             if (target === i) {
                 if (target.pos === 0) {
                     i.points += this.ceilTo100(base * 2) * 3 + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
@@ -137,7 +162,7 @@ class Game {
         let lose = this.findByName(res["lose"]);
         let base = res["base"];
 
-        for (let [_, i] of this.players) {
+        for (let i of this.players) {
             if (i === target) {
                 if (target.pos === 0) {
                     i.points += this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
@@ -185,7 +210,7 @@ class Game {
 
         if (listen.length > 0 && listen.length < 4) {
             for (let name of listen) {
-                let i = this.players.get(name);
+                let i = this.getPlayer(name);
                 i.points += this.settings["不听罚符"][3 - listen.length];
 
                 if (i.pos === 0) {
@@ -193,7 +218,7 @@ class Game {
                 }
             }
             for (let name of noListen) {
-                let i = this.players.get(name);
+                let i = this.getPlayer(name);
                 i.points -= this.settings["不听罚符"][3 - noListen.length];
             }
         }
@@ -234,7 +259,7 @@ class Game {
             return;
 
         let winner = res["winner"];
-        let loser = this.players.get(res["loser"]);
+        let loser = this.getPlayer(res["loser"]);
 
         if (winner.length == 3 && this.settings["途中流局"].includes("三家和了")) {
             let dialog = new Dialog("error");
@@ -242,7 +267,7 @@ class Game {
         }
 
         for (let i of winner) {
-            this.ron(this.players.get(i), loser);
+            this.ron(this.getPlayer(loser));
         }
 
         this.step();
@@ -264,9 +289,9 @@ class Game {
         let nameList = res["list"];
 
         for (let i of nameList) {
-            let target = this.players.get(i);
+            let target = this.getPlayer(i);
 
-            for (let [_, i] of this.players) {
+            for (let i of this.players) {
                 if (target === i) {
                     if (target.pos === 0) {
                         i.points += 4000 * 3;
@@ -314,7 +339,7 @@ class Game {
             this.public["round"] += 1;
         }
 
-        for (let [_, i] of this.players) {
+        for (let i of this.players) {
             i.step();
         }
 
@@ -324,18 +349,18 @@ class Game {
     endCheck() {
         // 击飞
         if (this.settings["击飞"]) {
-            for (let [_, i] of this.players) {
+            for (let i of this.players) {
                 if (i.points < 0) {
-                    return true;
+                    return endGame();
                 }
             }
         }
 
         // 天边
         if (this.settings["天边"] > 0) {
-            for (let [_, i] of this.players) {
+            for (let i of this.players) {
                 if (i.points >= this.settings["天边"]) {
-                    return true;
+                    return endGame();
                 }
             }
         }
@@ -358,7 +383,7 @@ class Game {
         }
 
         if (this.public["round"] > maxLength) {
-            endGame();
+            return endGame();
         }
 
         if (this.public["round"] > length && this.settings["南入/西入"]) {
