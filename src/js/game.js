@@ -194,6 +194,7 @@ class Game {
         return dialog.show(target);
     }
 
+    // TODO: fix 流局满贯不算罚符但更新听牌情况
     exhaustive() {
         let dialog = new Dialog("exhaustive");
         let res = dialog.show(this.playerNames);
