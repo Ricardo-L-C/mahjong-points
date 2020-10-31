@@ -151,17 +151,27 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import game from "./js/game.js";
+import dialog from "./js/dialog.js";
 
 export default {
   name: "App",
   components: {},
   setup() {
+    const ins = ref(null);
+
     onMounted(async () => {
-      await game.init();
-      game.start();
+      // await game.init();
+      // game.start();
+      // ins.value = new dialog()
+      // await ins.value.show()
+      // ins.value.show('你好！！')
     });
+
+    return {
+      ins
+    };
   }
 };
 </script>
