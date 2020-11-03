@@ -71,7 +71,7 @@ class Game {
     }
 
     async getPreSettings() {
-        let preSettings = await (await fetch('./static/json/config.json')).json();
+        let preSettings = await (await fetch('/static/json/config.json')).json();
 
         return preSettings[`${this.playerNum}`];
     }

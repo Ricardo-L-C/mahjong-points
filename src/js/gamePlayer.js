@@ -59,7 +59,7 @@ export default class GamePlayer {
     set pos(n) {
         this.Vpos = n < 0 ? n + this.game.playerNum : n;
         let posList = ["dou", "nan", "sei", "hoku"];
-        this.Hpos.src = `./static/img/${posList[this.Vpos]}.png`;
+        this.Hpos.src = `/static/img/${posList[this.Vpos]}.png`;
         this.dice = this.Vpos === 0;
     }
 
