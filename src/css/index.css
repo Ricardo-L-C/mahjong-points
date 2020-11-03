@@ -1,5 +1,5 @@
-@import './css/normalize.css';
-@import './css/main.css';
+@import './normalize.css';
+@import './main.css';
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

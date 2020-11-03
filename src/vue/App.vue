@@ -152,8 +152,8 @@
 
 <script>
 import { onMounted, ref } from "vue";
-import game from "./js/game.js";
-import dialog from "./js/dialog.js";
+import game from "../js/game.js";
+import dialog from "../js/dialog.js";
 
 export default {
   name: "App",
