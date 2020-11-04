@@ -1,5 +1,5 @@
 import Dialog from "./dialog.js"
-import GamePlayer from "./gamePlayer.js"
+import Player from "./Player.js"
 import GameHistory from "./gameHistory.js"
 import Public from "./public.js"
 
@@ -33,7 +33,7 @@ class Game {
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
             let playerHandle = document.querySelector(`.player${i}`);
-            let player = new GamePlayer(playerHandle, this, this.playerNames[i], this.settings["起始点数"][i], i);
+            let player = new Player(playerHandle, this, this.playerNames[i], this.settings["起始点数"][i], i);
 
             this.players.append(player);
         }

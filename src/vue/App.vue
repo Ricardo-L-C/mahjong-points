@@ -13,7 +13,9 @@
     import ControlComp from "./Control.vue";
 
     import game from "../js/game.js";
+
     import Dialog from "../js/dialog.js";
+    import Player from "../js/player.js";
 
     export default {
         name: "App",
@@ -31,6 +33,8 @@
 
             game.playerNum = playerNum;
             game.playerNames = playerNames;
+
+            // game.initPlayers();
 
             /*onMounted(async () => {
                 await game.init();

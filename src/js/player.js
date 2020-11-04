@@ -1,6 +1,6 @@
 import Dialog from "./dialog.js";
 
-export default class GamePlayer {
+export default class Player {
     constructor(handle, game, name, points, pos) {
         this.game = game;
 
