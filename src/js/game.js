@@ -1,5 +1,5 @@
 import Dialog from "./dialog.js"
-import Player from "./Player.js"
+import Player from "./player.js"
 import GameHistory from "./gameHistory.js"
 import Public from "./public.js"
 
