@@ -1,6 +1,6 @@
 <template>
     <div class="container flex-center flex-column">
-        <div class="player player0 flex-center flex-column">
+        <!--<div class="player player0 flex-center flex-column">
             <div class="richi-s flex-center">
                 <img src="/static/img/richi-s.png" />
             </div>
@@ -139,7 +139,12 @@
                     <button class="richi">リーチ</button>
                 </div>
             </div>
-        </div>
+        </div>-->
+        <Player id="player0" name="player0" :pos="0"></Player>
+        <Player id="player1" name="player1" :pos="1"></Player>
+        <Player id="player2" name="player2" :pos="2"></Player>
+        <Player id="player3" name="player3" :pos="3"></Player>
+
         <div class="board flex-center flex-column">
             <button class="exhaustive">荒牌流局</button>
             <button class="abortive">途中流局</button>
@@ -152,12 +157,13 @@
 
 <script>
 import { onMounted, ref } from "vue";
+import Player from "./Player.vue";
 import game from "../js/game.js";
 import dialog from "../js/dialog.js";
 
 export default {
     name: "App",
-    components: {},
+    components: {Player},
     setup() {
         const ins = ref(null);
 
