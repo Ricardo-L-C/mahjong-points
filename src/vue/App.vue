@@ -29,6 +29,9 @@
             let playerNum = 4,
                 playerNames = ["0", "1", "2", "3"];
 
+            game.playerNum = playerNum;
+            game.playerNames = playerNames;
+
             /*onMounted(async () => {
                 await game.init();
                 game.start();
@@ -45,3 +48,45 @@
         },
     };
 </script>
+
+<style>
+    .container {
+        overflow: hidden;
+        position: relative;
+        background-color: lightgreen;
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Aspect Ratio: 16 : 9 */
+    @media (orientation: landscape) {
+        .container {
+            width: 100vw;
+            height: calc(100vw * 9 / 16);
+        }
+
+        @media (min-width: calc(100vh * 16 / 9)) {
+            .container {
+                height: 100vh;
+                width: calc(100vh * 16 / 9);
+            }
+        }
+    }
+
+    @media (orientation: portrait) {
+        .container {
+            height: 100vh;
+            width: calc(100vh * 9 / 16);
+        }
+
+        @media (min-height: calc(100vw * 16 / 9)) {
+            .container {
+                width: 100vw;
+                height: calc(100vw * 16 / 9);
+            }
+        }
+    }
+</style>

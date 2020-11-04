@@ -30,24 +30,6 @@ class Game {
         this.initBoard();
     }
 
-    initBoard() {
-        (document.querySelector(".exhaustive")).addEventListener("click", (event) => {
-            this.exhaustive();
-        });
-        (document.querySelector(".abortive")).addEventListener("click", (event) => {
-            this.abortive();
-        });
-        (document.querySelector(".multiron")).addEventListener("click", (event) => {
-            this.multiRon();
-        });
-        (document.querySelector(".pao")).addEventListener("click", (event) => {
-
-        });
-        (document.querySelector(".history")).addEventListener("click", (event) => {
-
-        });
-    }
-
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
             let playerHandle = document.querySelector(`.player${i}`);

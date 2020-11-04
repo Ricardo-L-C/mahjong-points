@@ -37,106 +37,159 @@
 </template>
 
 <script>
-export default {
-    props: {
-        pos: Number,
-        name: String,
-    },
-    setup(props) {
-        return {
-            richiS: false,
-            points: 25000,
-            round: 1,
-            honba: 1,
-            richi: 1,
-        };
-    },
-};
+    export default {
+        props: {
+            pos: Number,
+            name: String,
+        },
+        setup(props) {
+            return {
+                richiS: false,
+                points: 25000,
+                round: 1,
+                honba: 1,
+                richi: 1,
+            };
+        },
+    };
 </script>
 
 <style>
-.player > .richi-s {
-    height: 20%;
-}
+    /* Player RAspect Ratio: 8 : 3*/
+    .player {
+        background-color: lightpink;
+        position: absolute;
+    }
 
-.player > div:nth-child(2) {
-    width: 100%;
-    height: 80%;
-}
+    @media (orientation: landscape) {
+        .player {
+            width: calc(100% / 2);
+            height: calc(100% / 3);
+        }
 
-.player > .richi-s > img {
-    width: 50%;
-    height: auto;
-}
+        #player1 {
+            right: calc(-100% * (5 / 32));
+        }
 
-.left {
-    width: 15%;
-    background-color: lightblue;
-    height: 100%;
-}
+        #player3 {
+            left: calc(-100% * (5 / 32));
+        }
+    }
 
-.left > .pos,
-.left > .dice {
-    width: 80%;
-}
+    @media (orientation: portrait) {
+        .player {
+            width: calc(100% * (8 / 9));
+            height: calc(100% * (3 / 16));
+        }
 
-.left > .pos > img,
-.left > .dice > img {
-    width: 100%;
-    height: auto;
-}
+        #player1 {
+            right: calc(-100% * (5 / 18));
+        }
 
-.playerinfo {
-    width: 40%;
-    height: 100%;
-    background-color: lightyellow;
-}
+        #player3 {
+            left: calc(-100% * (5 / 18));
+        }
+    }
 
-.playerinfo > * {
-    width: 100%;
-}
+    #player0 {
+        bottom: 0;
+    }
 
-.playerinfo > .points {
-    height: 60%;
-}
+    #player1 {
+        transform: rotate(270deg);
+    }
 
-.playerinfo > .name {
-    height: 40%;
-}
+    #player2 {
+        top: 0;
+        transform: rotate(180deg);
+    }
 
-.publicinfo {
-    width: 25%;
-    height: 100%;
-}
+    #player3 {
+        transform: rotate(90deg);
+    }
 
-.publicinfo > * {
-    width: 100%;
-    margin: 3% auto;
-}
+    .player > .richi-s {
+        height: 20%;
+    }
 
-.publicinfo > .round {
-    height: 30%;
-}
+    .player > div:nth-child(2) {
+        width: 100%;
+        height: 80%;
+    }
 
-.publicinfo > .honba-n,
-.publicinfo > .richi-n {
-    height: 15%;
-}
+    .player > .richi-s > img {
+        width: 50%;
+        height: auto;
+    }
 
-.publicinfo > .honba-n > img,
-.publicinfo > .richi-n > img {
-    width: 50%;
-}
+    .left {
+        width: 15%;
+        background-color: lightblue;
+        height: 100%;
+    }
 
-.buttons {
-    width: 20%;
-    height: 100%;
-    background-color: lightgrey;
-}
+    .left > .pos,
+    .left > .dice {
+        width: 80%;
+    }
 
-.buttons > button {
-    width: 80%;
-    height: 20%;
-    margin: 5% auto;
-}
+    .left > .pos > img,
+    .left > .dice > img {
+        width: 100%;
+        height: auto;
+    }
+
+    .playerinfo {
+        width: 40%;
+        height: 100%;
+        background-color: lightyellow;
+    }
+
+    .playerinfo > * {
+        width: 100%;
+    }
+
+    .playerinfo > .points {
+        height: 60%;
+    }
+
+    .playerinfo > .name {
+        height: 40%;
+    }
+
+    .publicinfo {
+        width: 25%;
+        height: 100%;
+    }
+
+    .publicinfo > * {
+        width: 100%;
+        margin: 3% auto;
+    }
+
+    .publicinfo > .round {
+        height: 30%;
+    }
+
+    .publicinfo > .honba-n,
+    .publicinfo > .richi-n {
+        height: 15%;
+    }
+
+    .publicinfo > .honba-n > img,
+    .publicinfo > .richi-n > img {
+        width: 50%;
+    }
+
+    .buttons {
+        width: 20%;
+        height: 100%;
+        background-color: lightgrey;
+    }
+
+    .buttons > button {
+        width: 80%;
+        height: 20%;
+        margin: 5% auto;
+    }
 </style>
