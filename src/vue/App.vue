@@ -1,6 +1,6 @@
 <template>
     <div class="container flex-center flex-column">
-        <PlayerComp v-for="(item, index) in playerNames" :key="index" :id="`player${index}`" :name="item" :pos="index"></PlayerComp>
+        <PlayerComp v-for="(item, index) in game.players" :key="index" :id="`player${index}`" :player="item"></PlayerComp>
 
         <ControlComp></ControlComp>
     </div>
@@ -21,7 +21,7 @@
         name: "App",
         components: { PlayerComp, ControlComp },
         setup() {
-            const ins = ref(null);
+            const app = ref(null);
 
             // 在此弹出 beginning dialog，获取 playerNum、playerNames
 
@@ -34,20 +34,17 @@
             game.playerNum = playerNum;
             game.playerNames = playerNames;
 
-            // game.initPlayers();
-
-            /*onMounted(async () => {
+            onMounted(async () => {
                 await game.init();
-                game.start();
-                ins.value = new Dialog();
-                await ins.value.show();
-                ins.value.show("你好！！");
-            });*/
+
+                app.value = new Dialog();
+                await app.value.show();
+                app.value.show("你好！！");
+            });
 
             return {
-                playerNum,
-                playerNames,
-                ins,
+                game,
+                app,
             };
         },
     };

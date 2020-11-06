@@ -1,30 +1,30 @@
 <template>
     <div class="player flex-center flex-column">
         <div class="richi-s flex-center">
-            <img src="/static/img/richi-s.png" v-if="richiS" />
+            <img src="/static/img/richi-s.png" v-if="player.richiS" />
         </div>
         <div class="flex-center">
             <div class="left flex-around flex-column">
                 <div class="pos flex-center">
-                    <img :src="'/static/img/' + pos + '.png'" />
+                    <img :src="'/static/img/' + player.beginPos + '.png'" />
                 </div>
                 <div class="dice flex-center">
                     <img src="/static/img/dice.png" />
                 </div>
             </div>
             <div class="playerinfo">
-                <div class="points flex-center">{{ points }}</div>
-                <div class="name flex-center">{{ name }}</div>
+                <div class="points flex-center">{{ player.points }}</div>
+                <div class="name flex-center">{{ player.name }}</div>
             </div>
             <div class="publicinfo flex-center flex-column">
-                <div class="round flex-center">{{ round }}</div>
+                <div class="round flex-center">{{ player.game.public.round }}</div>
                 <div class="honba-n flex-center">
                     <img src="/static/img/honba.png" />
-                    <div>&nbsp;×&nbsp;{{ honba }}</div>
+                    <div>&nbsp;×&nbsp;{{ player.game.public.honba }}</div>
                 </div>
                 <div class="richi-n flex-center">
                     <img src="/static/img/richi.png" />
-                    <div>&nbsp;×&nbsp;{{ richi }}</div>
+                    <div>&nbsp;×&nbsp;{{ player.game.public.richi }}</div>
                 </div>
             </div>
             <div class="buttons flex-center flex-column">
@@ -37,18 +37,15 @@
 </template>
 
 <script>
+    import Player from "../js/player.js";
+
     export default {
         props: {
-            pos: Number,
-            name: String,
+            player: Player
         },
         setup(props) {
             return {
-                richiS: false,
-                points: 25000,
-                round: 1,
-                honba: 1,
-                richi: 1,
+
             };
         },
     };

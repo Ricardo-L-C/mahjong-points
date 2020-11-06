@@ -1,7 +1,9 @@
-import Dialog from "./dialog.js"
-import Player from "./player.js"
-import GameHistory from "./gameHistory.js"
-import Public from "./public.js"
+import Dialog from "./dialog.js";
+import Player from "./player.js";
+import GameHistory from "./gameHistory.js";
+import Public from "./public.js";
+
+import {reactive} from "vue";
 
 class Game {
     constructor() {
@@ -17,25 +19,16 @@ class Game {
     /*** inits ***/
 
     async init() {
-        let dialog = new Dialog("beginning");
-        let res = dialog.show();
-
-        this.playerNum = res["playerNum"];
-        this.playerNames = res["playerNames"];
-
         await this.initSettings();
 
         this.initPlayers();
-
-        this.initBoard();
     }
 
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
-            let playerHandle = document.querySelector(`.player${i}`);
-            let player = new Player(playerHandle, this, this.playerNames[i], this.settings["起始点数"][i], i);
+            let player = reactive(new Player(this, this.playerNames[i], this.settings["起始点数"][i], i));
 
-            this.players.append(player);
+            this.players.push(player);
         }
     }
 
