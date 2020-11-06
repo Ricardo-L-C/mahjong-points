@@ -1,19 +1,22 @@
 import Dialog from "./dialog.js";
 import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
-import Public from "./public.js";
 
-import {reactive} from "vue";
+import { reactive } from "vue";
 
 class Game {
     constructor() {
         this.history = new GameHistory();
-        this.public = new Public(this);
+        this.public = {};
         this.settings = {};
         this.players = [];
 
         // ["abortive", "nagashimangan", "oyaten", "oyanoten", "oyatsumo", "kodomotsumo", "oyaron", "kodomoron"]
         this.lastEndMode = 0b00000000;
+
+        this.public["richi"] = 0;
+        this.public["honba"] = 0;
+        this.public["round"] = 0;
     }
 
     /*** inits ***/

@@ -28,19 +28,13 @@
             /*const dialog = new Dialog("beginning");
             const {playerNum, playerNames} = await dialog.show();*/
 
-            let playerNum = 4,
-                playerNames = ["0", "1", "2", "3"];
-
-            game.playerNum = playerNum;
-            game.playerNames = playerNames;
-
-            onMounted(async () => {
-                await game.init();
-
+            /*onMounted(async () => {
                 app.value = new Dialog();
                 await app.value.show();
                 app.value.show("你好！！");
-            });
+            });*/
+
+            console.log(game.players);
 
             return {
                 game,

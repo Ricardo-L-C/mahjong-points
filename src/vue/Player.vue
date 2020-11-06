@@ -30,7 +30,7 @@
             <div class="buttons flex-center flex-column">
                 <button class="ron">ロン</button>
                 <button class="tsumo">ツモ</button>
-                <button class="richi">リーチ</button>
+                <button class="richi" @click="richi">リーチ</button>
             </div>
         </div>
     </div>
@@ -41,12 +41,15 @@
 
     export default {
         props: {
-            player: Player
+            player: Player,
         },
         setup(props) {
-            return {
-
-            };
+            return {};
+        },
+        methods: {
+            richi() {
+                this.player.richi();
+            },
         },
     };
 </script>
