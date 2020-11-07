@@ -9,4 +9,3 @@ window.onload = async () => {
 
     createApp(App).mount('#app');
 };
-

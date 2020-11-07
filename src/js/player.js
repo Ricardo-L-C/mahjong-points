@@ -21,7 +21,6 @@ export default class Player {
 
     richi() {
         if (this.points < this.game.settings["立直棒点数"] && this.game.settings["击飞"]) {
-
             const dialog = new Dialog("error");
             return dialog.show("点数不足，无法立直");
         }
