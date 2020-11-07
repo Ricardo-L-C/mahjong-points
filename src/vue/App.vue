@@ -12,7 +12,7 @@
         :player="item"
       ></PlayerComp>
 
-      <ControlComp></ControlComp>
+      <ControlComp :game="game"></ControlComp>
     </template>
   </div>
 </template>

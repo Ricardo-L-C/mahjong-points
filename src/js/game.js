@@ -2,7 +2,7 @@ import Dialog from "./dialog.js";
 import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
 
-class Game {
+export default class Game {
     constructor() {
         this.history = new GameHistory();
         this.public = {};
@@ -401,5 +401,3 @@ class Game {
 
     }
 }
-
-export default Game;

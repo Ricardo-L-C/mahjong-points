@@ -73,7 +73,7 @@ export default {
     richi() {
       this.player.richi();
     },
-    dice() {},
+    dice() {console.log(this)},
     calPoints() {},
   },
 };
