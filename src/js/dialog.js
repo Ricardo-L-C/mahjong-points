@@ -20,16 +20,11 @@ export default class Dialog {
                 type: this.t,
                 ...options,
                 onCancel: () => {
-                    resolve({
-                        cancel: true,
-                    })
+                    resolve()
                     this.hide()
                 },
                 onConfirm: (data) => {
-                    resolve({
-                        cancel: false,
-                        data
-                    })
+                    resolve(data || {})
                     this.hide()
                 }
             }))
