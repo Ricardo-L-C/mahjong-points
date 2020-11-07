@@ -20,8 +20,8 @@
 <script>
 import { onMounted, ref } from "vue";
 
-import PlayerComp from "./Player.vue";
-import ControlComp from "./Control.vue";
+import PlayerComp from "./player.vue";
+import ControlComp from "./control.vue";
 
 import Game from "../js/game.js";
 

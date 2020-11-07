@@ -1,4 +1,4 @@
-import DialogComponent from '../vue/Dialog.vue'
+import DialogComponent from '../vue/dialog.vue'
 import {
     createApp,
     h,
