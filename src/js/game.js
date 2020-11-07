@@ -51,7 +51,12 @@ class Game {
         this.commonPoints = preSettings["commonPoints"];
 
         let dialog = new Dialog("settings");
-        let res = await dialog.show(preSettings["rules"]);
+        let res = await dialog.show('prerules', {
+            type: 'test',
+            defaultValue: preSettings["rules"]
+        });
+
+        console.log(res)
 
         // this.settings = res["settings"];
 

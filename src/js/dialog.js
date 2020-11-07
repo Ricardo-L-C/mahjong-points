@@ -10,20 +10,21 @@ export default class Dialog {
         this.instance = null
     }
 
-    show(title) {
+    show(title, options) {
         return new Promise((resolve, reject) => {
-            // const instance = HelloWorld()
             if (this.instance) {
                 this.hide()
             }
             this.instance = createApp(() => h(DialogComponent, {
-                name: title || 2333,
+                name: title,
+                type: this.t,
+                ...options,
                 onCancel: () => {
                     reject('cancel')
                     this.hide()
                 },
-                onConfirm: () => {
-                    resolve('confirm')
+                onConfirm: (...args) => {
+                    resolve(...args)
                     this.hide()
                 }
             }))
