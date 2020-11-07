@@ -9,7 +9,7 @@
           <img :src="posImg" />
         </div>
         <div class="dice flex-center">
-          <img src="/static/img/dice.png" />
+          <img src="/static/img/dice.png" v-if="diceImg" />
         </div>
       </div>
       <div class="playerinfo">
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     roundName() {
-      let roundList = ["东", "南", "西", "北"];
+      const roundList = ["东", "南", "西", "北"];
 
       return `${
         roundList[this.player.game.public.round / this.player.game.playerNum]
@@ -56,6 +56,9 @@ export default {
     },
     posImg() {
       return `/static/img/${this.player.pos}.png`;
+    },
+    diceImg() {
+      return this.player.pos === 0;
     },
   },
   methods: {
