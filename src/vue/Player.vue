@@ -53,7 +53,7 @@ export default {
       const roundList = ["东", "南", "西", "北"];
 
       return `${
-        roundList[this.player.game.public.round / this.player.game.playerNum]
+        roundList[Math.floor(this.player.game.public.round / this.player.game.playerNum)]
       }${(this.player.game.public.round % this.player.game.playerNum) + 1}局`;
     },
     posImg() {
@@ -74,7 +74,7 @@ export default {
       this.player.richi();
     },
     dice() {console.log(this)},
-    calPoints() {},
+    calPoints() {console.log(this);this.player.game.step()},
   },
 };
 </script>
