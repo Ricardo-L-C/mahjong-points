@@ -9,19 +9,24 @@
 </template>
 
 <script>
-import game from "../js/game.js";
+import Game from "../js/game.js";
 
 export default {
-  props: {},
+  props: {
+    game: Game,
+  },
+  data() {
+    return {};
+  },
   methods: {
     exhaustive() {
-      game.exhaustive();
+      this.game.exhaustive();
     },
     abortive() {
-      game.abortive();
+      this.game.abortive();
     },
     multiRon() {
-      game.multiRon();
+      this.game.multiRon();
     },
     pao() {},
     history() {},

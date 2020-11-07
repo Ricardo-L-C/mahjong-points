@@ -1,16 +1,15 @@
 <template>
-    <div class="dialog-wrapper">
-        <div class="dialog">
-            <div class="dialog-header">{{ name }}</div>
-            <div class="dialog-body">
-                {{data}}
-                <Test v-if="type === 'test'" :value="data" @input="handleInput" />
-            </div>
-            <div class="dialog-footer" v-if="showFooter">
-                <button @click="$emit('cancel')">取消</button>
-                <button @click="$emit('confirm', data)">确定</button>
-            </div>
-        </div>
+  <div class="dialog-wrapper">
+    <div class="dialog">
+      <div class="dialog-header">{{ name }}</div>
+      <div class="dialog-body">
+        {{ data }}
+        <Test v-if="type === 'test'" :value="data" @input="handleInput" />
+      </div>
+      <div class="dialog-footer" v-if="showFooter">
+        <button @click="$emit('cancel')">取消</button>
+        <button @click="$emit('confirm', data)">确定</button>
+      </div>
     </div>
   </div>
 </template>
