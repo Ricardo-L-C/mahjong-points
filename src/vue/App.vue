@@ -1,8 +1,14 @@
 <template>
     <div class="container flex-center flex-column">
-        <PlayerComp v-for="(item, index) in game.players" :key="index" :id="`player${index}`" :player="item"></PlayerComp>
+        <template v-if="!ready">
+            <!-- 此处显示初始化时候的图片loading或者背景图片 -->
+            <button @click="init">开始游戏</button>
+        </template>
+        <template v-else>
+            <PlayerComp v-for="(item, index) in game.players" :key="index" :id="`player${index}`" :player="item"></PlayerComp>
 
-        <ControlComp></ControlComp>
+           <ControlComp></ControlComp>
+        </template>
     </div>
 </template>
 
@@ -12,7 +18,7 @@
     import PlayerComp from "./Player.vue";
     import ControlComp from "./Control.vue";
 
-    import game from "../js/game.js";
+    import Game from "../js/game.js";
 
     import Dialog from "../js/dialog.js";
     import Player from "../js/player.js";
@@ -20,22 +26,27 @@
     export default {
         name: "App",
         components: { PlayerComp, ControlComp },
-        setup() {
-            const app = ref(null);
-
-            /*onMounted(async () => {
-                app.value = new Dialog();
-                await app.value.show();
-                app.value.show("你好！！");
-            });*/
-
-            console.log(game.players);
-
+        data() {
             return {
-                game,
-                app,
-            };
+                game: null,
+                app: new Dialog(),
+                // 是否初始化完成
+                ready: false,
+            }
         },
+
+        methods: {
+            async init() {
+                const game = new Game()
+                await game.init()
+                this.game = game
+                this.ready = true
+            }
+        },
+
+        mounted() {
+            this.init()
+        }
     };
 </script>
 

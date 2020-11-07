@@ -2,8 +2,6 @@ import Dialog from "./dialog.js";
 import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
 
-import { reactive } from "vue";
-
 class Game {
     constructor() {
         this.history = new GameHistory();
@@ -31,8 +29,8 @@ class Game {
         let playerNum = 4,
             playerNames = ["0", "1", "2", "3"];
 
-        game.playerNum = playerNum;
-        game.playerNames = playerNames;
+        this.playerNum = playerNum;
+        this.playerNames = playerNames;
 
         await this.initSettings();
 
@@ -41,7 +39,7 @@ class Game {
 
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
-            let player = reactive(new Player(this, this.playerNames[i], this.settings["起始点数"][i], i));
+            let player = new Player(this, this.playerNames[i], this.settings["起始点数"][i], i);
 
             this.players.push(player);
         }
@@ -53,7 +51,7 @@ class Game {
         this.commonPoints = preSettings["commonPoints"];
 
         let dialog = new Dialog("settings");
-        let res = dialog.show(preSettings["rules"]);
+        let res = await dialog.show(preSettings["rules"]);
 
         // this.settings = res["settings"];
 
@@ -399,6 +397,4 @@ class Game {
     }
 }
 
-let game = reactive(new Game());
-
-export default game;
+export default Game;
