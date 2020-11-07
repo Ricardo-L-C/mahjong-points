@@ -2,7 +2,6 @@
   <div>
     <input :value="value.a" @input="handleInput('a', $event)"/>
     <input :value="value.b" @input="handleInput('b', $event)"/>
-    {{value}}
   </div>
 </template>
 
