@@ -6,7 +6,7 @@
     <div class="flex-center">
       <div class="left flex-around flex-column">
         <div class="pos flex-center">
-          <img :src="'/static/img/' + player.beginPos + '.png'" />
+          <img :src="posImg" />
         </div>
         <div class="dice flex-center">
           <img src="/static/img/dice.png" />
@@ -53,6 +53,9 @@ export default {
       return `${
         roundList[this.player.game.public.round / this.player.game.playerNum]
       }${(this.player.game.public.round % this.player.game.playerNum) + 1}局`;
+    },
+    posImg() {
+      return `/static/img/${this.player.pos}.png`;
     },
   },
   methods: {
