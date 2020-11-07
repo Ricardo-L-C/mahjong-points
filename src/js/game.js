@@ -22,6 +22,18 @@ class Game {
     /*** inits ***/
 
     async init() {
+
+        // 在此弹出 beginning dialog，获取 playerNum、playerNames
+
+        /*const dialog = new Dialog("beginning");
+        const {playerNum, playerNames} = await dialog.show();*/
+
+        let playerNum = 4,
+            playerNames = ["0", "1", "2", "3"];
+
+        game.playerNum = playerNum;
+        game.playerNames = playerNames;
+
         await this.initSettings();
 
         this.initPlayers();

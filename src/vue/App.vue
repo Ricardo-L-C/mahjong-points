@@ -23,11 +23,6 @@
         setup() {
             const app = ref(null);
 
-            // 在此弹出 beginning dialog，获取 playerNum、playerNames
-
-            /*const dialog = new Dialog("beginning");
-            const {playerNum, playerNames} = await dialog.show();*/
-
             /*onMounted(async () => {
                 app.value = new Dialog();
                 await app.value.show();
