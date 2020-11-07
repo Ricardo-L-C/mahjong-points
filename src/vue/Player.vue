@@ -9,11 +9,13 @@
           <img :src="posImg" />
         </div>
         <div class="dice flex-center">
-          <img src="/static/img/dice.png" v-if="diceImg" />
+          <img src="/static/img/dice.png" v-show="diceImg" @click="dice" />
         </div>
       </div>
       <div class="playerinfo">
-        <div class="points flex-center">{{ player.points }}</div>
+        <div class="points flex-center" @click="calPoints">
+          {{ player.points }}
+        </div>
         <div class="name flex-center">{{ player.name }}</div>
       </div>
       <div class="publicinfo flex-center flex-column">
@@ -71,6 +73,8 @@ export default {
     richi() {
       this.player.richi();
     },
+    dice() {},
+    calPoints() {},
   },
 };
 </script>
