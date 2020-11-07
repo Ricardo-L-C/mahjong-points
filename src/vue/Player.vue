@@ -45,7 +45,7 @@ export default {
   props: {
     player: Player,
   },
-  setup(props) {
+  data() {
     return {};
   },
   computed: {
