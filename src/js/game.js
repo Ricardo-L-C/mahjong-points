@@ -399,6 +399,6 @@ class Game {
     }
 }
 
-let game = new Game();
+let game = reactive(new Game());
 
 export default game;
