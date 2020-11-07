@@ -1,7 +1,7 @@
 <template>
   <div class="player flex-center flex-column">
     <div class="richi-s flex-center">
-      <img src="/static/img/richi-s.png" v-show="player.richiS" />
+      <img src="/static/img/richi-l.png" v-show="player.richiS" />
     </div>
     <div class="flex-center">
       <div class="left flex-around flex-column">
@@ -25,7 +25,7 @@
           <div>&nbsp;×&nbsp;{{ player.game.public.honba }}</div>
         </div>
         <div class="richi-n flex-center">
-          <img src="/static/img/richi.png" />
+          <img src="/static/img/richi-s.png" />
           <div>&nbsp;×&nbsp;{{ player.game.public.richi }}</div>
         </div>
       </div>
@@ -44,9 +44,6 @@ import Player from "../js/player.js";
 export default {
   props: {
     player: Player,
-  },
-  data() {
-    return {};
   },
   computed: {
     roundName() {
@@ -73,8 +70,8 @@ export default {
     richi() {
       this.player.richi();
     },
-    dice() {console.log(this)},
-    calPoints() {console.log(this);this.player.game.step()},
+    dice() {},
+    calPoints() {},
   },
 };
 </script>

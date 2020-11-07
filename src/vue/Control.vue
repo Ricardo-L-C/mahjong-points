@@ -15,9 +15,6 @@ export default {
   props: {
     game: Game,
   },
-  data() {
-    return {};
-  },
   methods: {
     exhaustive() {
       this.game.exhaustive();
