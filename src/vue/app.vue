@@ -13,7 +13,7 @@
       ></PlayerComp>
       <ControlComp :game="game"></ControlComp>
     </template>
-    <!--<DialogComp v-show="dialog.hide" :dialog="dialog"></DialogComp>-->
+    <DialogComp v-show="dialog.hide" :dialog="dialog"></DialogComp>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       game: null,
-      dialog: null,
+      dialog: new Dialog(),
       // 是否初始化完成
       ready: false,
     };
@@ -48,7 +48,6 @@ export default {
     },
   },
   beforeCreate() {
-    this.dialog = new Dialog();
     this.init();
   },
   mounted() {
