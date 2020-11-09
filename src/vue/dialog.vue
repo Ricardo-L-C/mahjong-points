@@ -1,14 +1,18 @@
 <template>
   <div class="dialog-wrapper">
     <div class="dialog">
-      <div class="dialog-header">{{ name }}</div>
+      <div class="dialog-header">{{ dialog.name }}</div>
       <div class="dialog-body">
-        {{ data }}
-        <Test v-if="type === 'test'" :value="data" @input="handleInput" />
+        {{ dialog.data }}
+        <Test
+          v-if="dialog.type === 'test'"
+          :value="data"
+          @input="handleInput"
+        />
       </div>
       <div class="dialog-footer" v-if="showFooter">
-        <button @click="$emit('cancel')">取消</button>
-        <button @click="$emit('confirm', data)">确定</button>
+        <button @click="cancel">取消</button>
+        <button @click="confirm(data)">确定</button>
       </div>
     </div>
   </div>
@@ -16,38 +20,27 @@
 
 <script>
 import Test from "./DialogTemplate/test.vue";
+import Dialog from "../js/dialog.js";
 
 export default {
   components: { Test },
   props: {
-    name: String,
-    showFooter: {
-      type: Boolean,
-      default: true,
-    },
-    type: String,
-    defaultValue: {
-      type: Object,
-      default: () => ({}),
-    },
+    dialog: Dialog,
   },
   data() {
     return {
-      data: this.defaultValue,
+      data: {},
     };
   },
-
-  watch: {
-    defaultValue: {
-      handler(val) {
-        this.data = val;
-      },
-    },
-  },
-
   methods: {
     handleInput(value) {
       this.data = value;
+    },
+    cancel() {
+      this.dialog.cancel();
+    },
+    confirm(data) {
+      this.dialog.confirm(data);
     },
   },
 };
@@ -55,12 +48,11 @@ export default {
 
 <style>
 .dialog-wrapper {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 999;
 
   background-color: rgba(0, 0, 0, 0.6);
 }

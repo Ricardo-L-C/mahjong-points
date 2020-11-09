@@ -11,9 +11,9 @@
         :id="`player${index}`"
         :player="item"
       ></PlayerComp>
-
       <ControlComp :game="game"></ControlComp>
     </template>
+    <!--<DialogComp v-show="dialog.hide" :dialog="dialog"></DialogComp>-->
   </div>
 </template>
 
@@ -22,19 +22,19 @@ import { onMounted, ref } from "vue";
 
 import PlayerComp from "./player.vue";
 import ControlComp from "./control.vue";
+import DialogComp from "./dialog.vue";
 
 import Game from "../js/game.js";
-
 import Dialog from "../js/dialog.js";
 import Player from "../js/player.js";
 
 export default {
   name: "App",
-  components: { PlayerComp, ControlComp },
+  components: { PlayerComp, ControlComp, DialogComp },
   data() {
     return {
       game: null,
-      app: new Dialog(),
+      dialog: null,
       // 是否初始化完成
       ready: false,
     };
@@ -47,9 +47,13 @@ export default {
       this.ready = true;
     },
   },
-  mounted() {
+  beforeCreate() {
+    this.dialog = new Dialog();
     this.init();
   },
+  mounted() {
+
+},
 };
 </script>
 
@@ -63,34 +67,5 @@ export default {
 .container {
   width: 100%;
   height: 100%;
-}
-
-/* Aspect Ratio: 16 : 9 */
-@media (orientation: landscape) {
-  .container {
-    width: 100vw;
-    height: calc(100vw * 9 / 16);
-  }
-
-  @media (min-width: calc(100vh * 16 / 9)) {
-    .container {
-      height: 100vh;
-      width: calc(100vh * 16 / 9);
-    }
-  }
-}
-
-@media (orientation: portrait) {
-  .container {
-    height: 100vh;
-    width: calc(100vh * 9 / 16);
-  }
-
-  @media (min-height: calc(100vw * 16 / 9)) {
-    .container {
-      width: 100vw;
-      height: calc(100vw * 16 / 9);
-    }
-  }
 }
 </style>
