@@ -10,7 +10,7 @@
           @input="handleInput"
         />
       </div>
-      <div class="dialog-footer" v-if="showFooter">
+      <div class="dialog-footer">
         <button @click="cancel">取消</button>
         <button @click="confirm(data)">确定</button>
       </div>
@@ -25,7 +25,7 @@ import Dialog from "../js/dialog.js";
 export default {
   components: { Test },
   props: {
-    dialog: Dialog,
+    dialog: Object,
   },
   data() {
     return {

@@ -51,14 +51,10 @@ export default class Game {
         this.commonPoints = preSettings["commonPoints"];
 
         let dialog = new Dialog("settings");
-        let res = await dialog.show('prerules', {
+        await dialog.show('prerules', {
             type: 'test',
             defaultValue: preSettings["rules"]
         });
-
-        console.log(res)
-
-        // this.settings = res["settings"];
 
         this.settings = preSettings["rules"]["天凤段位战"];
     }

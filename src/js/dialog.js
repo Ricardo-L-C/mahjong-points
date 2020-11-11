@@ -11,21 +11,19 @@ export default class Dialog {
     }
 
     show(name, data) {
-        return new Promise((resolve, reject) => {
-
-        });
+        return data
     }
 
     cancel() {
-        resolve()
-        this.hide()
+        this.hide = false
     }
+
     confirm(data) {
-        resolve(data || {})
-        this.hide()
+        this.hide = false
+        return data || {}
     }
 
     close() {
-        return this.hide
+        return this.hide = false
     }
 }

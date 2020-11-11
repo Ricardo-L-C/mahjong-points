@@ -47,12 +47,9 @@ export default {
       this.ready = true;
     },
   },
-  beforeCreate() {
+  mounted() {
     this.init();
   },
-  mounted() {
-
-},
 };
 </script>
 
