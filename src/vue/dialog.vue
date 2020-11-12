@@ -24,6 +24,7 @@ import Dialog from "../js/dialog.js";
 
 export default {
   components: { Test },
+  emit:["test"],
   props: {
     dialog: Object,
   },
@@ -34,6 +35,7 @@ export default {
   },
   methods: {
     handleInput(value) {
+      this.$emit("test");
       this.data = value;
     },
     cancel() {

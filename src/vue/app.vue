@@ -1,8 +1,7 @@
 <template>
   <div class="container flex-center flex-column">
-    <template v-if="!ready">
+    <template v-if="!gameInited">
       <!-- 此处显示初始化时候的图片loading或者背景图片 -->
-      <button @click="init">开始游戏</button>
     </template>
     <template v-else>
       <PlayerComp
@@ -19,36 +18,26 @@
 
 <script>
 import { onMounted, ref } from "vue";
+import { mapState } from "vuex";
 
 import PlayerComp from "./player.vue";
 import ControlComp from "./control.vue";
 import DialogComp from "./dialog.vue";
 
-import Game from "../js/game.js";
-import Dialog from "../js/dialog.js";
 import Player from "../js/player.js";
 
 export default {
   name: "App",
   components: { PlayerComp, ControlComp, DialogComp },
   data() {
-    return {
-      game: null,
-      dialog: new Dialog(),
-      // 是否初始化完成
-      ready: false,
-    };
+    return {};
   },
-  methods: {
-    async init() {
-      const game = new Game();
-      await game.init();
-      this.game = game;
-      this.ready = true;
-    },
+  computed: {
+    ...mapState(["game", "gameInited", "dialog"]),
   },
+  methods: {},
   mounted() {
-    this.init();
+    this.$store.dispatch("initGame");
   },
 };
 </script>
