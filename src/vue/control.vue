@@ -11,8 +11,6 @@
 <script>
 import { mapState } from "vuex";
 
-import Game from "../js/game.js";
-
 export default {
   computed: {
     ...mapState(["game"]),
