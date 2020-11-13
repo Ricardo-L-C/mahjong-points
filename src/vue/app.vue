@@ -3,7 +3,7 @@
     <template v-if="!gameInited">
       <!-- 此处显示初始化时候的图片loading或者背景图片 -->
     </template>
-    <template v-else>
+    <template v-else :class="{ blur: !dialog.hide }">
       <PlayerComp
         v-for="(item, index) in game.players"
         :key="index"
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
 import { mapState } from "vuex";
 
 import PlayerComp from "./player.vue";

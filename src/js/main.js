@@ -1,10 +1,11 @@
 import { createApp } from 'vue';
 import { createStore } from "vuex";
 
-import Game from "../js/game.js";
-import Dialog from "../js/dialog.js";
+import Game from "./game.js";
+import Dialog from "./dialog.js";
 
 import App from '../vue/app.vue';
+
 import '../css/index.css';
 
 const store = createStore({

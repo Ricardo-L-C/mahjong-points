@@ -23,6 +23,10 @@ html {
     align-items: center;
 }
 
+body {
+    position: relative;
+}
+
 .hidden {
     display: none !important;
 }
@@ -45,6 +49,10 @@ html {
 
 .flex-column {
     flex-direction: column;
+}
+
+.blur {
+    filter: blur(10px);
 }
 
 /* Aspect Ratio: 16 : 9 */
@@ -74,10 +82,6 @@ html {
             height: calc(100vw * 16 / 9);
         }
     }
-}
-
-body {
-    position: relative;
 }
 
 #app {
