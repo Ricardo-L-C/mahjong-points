@@ -3,7 +3,7 @@
     <template v-if="!gameInited">
       <!-- 此处显示初始化时候的图片loading或者背景图片 -->
     </template>
-    <template v-else :class="{ blur: !dialog.hide }">
+    <template v-else :class="{ blur: !dialogOnShow }">
       <PlayerComp
         v-for="(item, index) in game.players"
         :key="index"
@@ -32,7 +32,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["game", "gameInited", "dialog"]),
+    ...mapState(["game", "gameInited", "dialogOnShow"]),
   },
   methods: {},
   mounted() {

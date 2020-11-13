@@ -13,7 +13,7 @@ const store = createStore({
         return {
             game: new Game(),
             gameInited: false,
-            dialog: new Dialog(),
+            dialogOnShow: false,
         };
     },
     methods: {},
@@ -21,6 +21,12 @@ const store = createStore({
         gameInited(state) {
             state.gameInited = true;
         },
+        showDialog(state) {
+            state.dialogOnShow = true;
+        },
+        hideDialog(state) {
+            state.dialogOnShow = false;
+        }
     },
     actions: {
         async initGame({ state, commit }) {
