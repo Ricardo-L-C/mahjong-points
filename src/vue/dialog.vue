@@ -19,19 +19,21 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import Test from "./DialogTemplate/test.vue";
 import Dialog from "../js/dialog.js";
 
 export default {
   components: { Test },
-  emit:["test"],
-  props: {
-    dialog: Object,
-  },
+  emit: ["test"],
   data() {
     return {
       data: {},
     };
+  },
+  computed: {
+    ...mapState(["dialog"]),
   },
   methods: {
     handleInput(value) {

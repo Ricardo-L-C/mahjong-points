@@ -10,9 +10,9 @@
         :id="`player${index}`"
         :player="item"
       ></PlayerComp>
-      <ControlComp :game="game"></ControlComp>
+      <ControlComp></ControlComp>
     </template>
-    <DialogComp v-show="dialog.hide" :dialog="dialog"></DialogComp>
+    <DialogComp v-show="dialog.hide"></DialogComp>
   </div>
 </template>
 

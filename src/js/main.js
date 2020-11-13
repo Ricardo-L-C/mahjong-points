@@ -13,7 +13,6 @@ const store = createStore({
             game: new Game(),
             gameInited: false,
             dialog: new Dialog(),
-            dialogHide: true,
         };
     },
     methods: {},
@@ -21,15 +20,11 @@ const store = createStore({
         gameInited(state) {
             state.gameInited = true;
         },
-        changeDialog(state, hide) {
-            state.dialogHide = hide;
-        },
     },
     actions: {
-        async initGame(context) {
-            console.log(context);
-            await context.state.game.init();
-            context.commit("gameInited");
+        async initGame({ state, commit }) {
+            await state.game.init();
+            commit("gameInited");
         }
     }
 });

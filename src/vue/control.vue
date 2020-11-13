@@ -9,11 +9,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import Game from "../js/game.js";
 
 export default {
-  props: {
-    game: Game,
+  computed: {
+    ...mapState(["game"]),
   },
   methods: {
     exhaustive() {
