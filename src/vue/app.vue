@@ -12,7 +12,7 @@
       ></PlayerComp>
       <ControlComp></ControlComp>
     </template>
-    <DialogComp v-show="dialog.hide"></DialogComp>
+    <div id="dialog" v-show="dialogOnShow"></div>
   </div>
 </template>
 
@@ -21,13 +21,12 @@ import { mapState } from "vuex";
 
 import PlayerComp from "./player.vue";
 import ControlComp from "./control.vue";
-import DialogComp from "./dialog.vue";
 
 import Player from "../js/player.js";
 
 export default {
   name: "App",
-  components: { PlayerComp, ControlComp, DialogComp },
+  components: { PlayerComp, ControlComp },
   data() {
     return {};
   },

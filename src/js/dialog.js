@@ -1,23 +1,42 @@
-export default class Dialog {
+import DialogComp from "../vue/dialog.vue";
+
+class Dialog {
     constructor() {
-        this.instance = null;
         this.hide = true;
+        this.instance = createApp(() => h(DialogComp, {
+            name: title,
+            hide: false,
+            ...options,
+            onCancel: () => {
+
+                resolve()
+                this.hide()
+            },
+            onConfirm: (data) => {
+
+                resolve(data || {})
+                this.hide()
+            }
+        }))
+        this.instance.mount("#dialog");
     }
 
-    show(name, data) {
-        return data
+    show(type, options) {
+        return new Promise((resolve, reject) => {
+            if (this.instance) {
+                this.hide()
+            }
+        })
     }
-
-    cancel() {
-        this.hide = false
+    hide() {
+        if (this.instance) {
+            this.instance.unmount()
+        }
     }
-
-    confirm(data) {
-        this.hide = false
-        return data || {}
-    }
-
     close() {
-        return this.hide = false
+        return this.hide;
     }
 }
+
+const dialog = new Dialog();
+export default dialog;
