@@ -5,8 +5,6 @@ class Dialog {
         this.hide = true;
         this.instance = createApp(() => h(DialogComp, {
             name: title,
-            hide: false,
-            ...options,
             onCancel: () => {
 
                 resolve()
