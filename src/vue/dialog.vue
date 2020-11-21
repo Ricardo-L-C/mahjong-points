@@ -1,9 +1,9 @@
 <template>
-  <div class="dialog-wrapper">
+  <div class="dialog-wrapper" :class="{ 'is-hidden': !dialogVisible }">
     <div class="dialog">
       <div class="dialog-header">{{ dialog.name }}</div>
       <div class="dialog-body">
-        {{ dialog.data }}
+        {{ dialogData }}
         <Test
           v-if="dialog.type === 'test'"
           :value="data"
@@ -19,32 +19,33 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 import Test from "./DialogTemplate/test.vue";
-import Dialog from "../js/dialog.js";
 
 export default {
   components: { Test },
-  emit: ["test"],
   data() {
     return {
       data: {},
     };
   },
   computed: {
-    ...mapState(["dialog"]),
+    ...mapState(["dialog", "dialogVisible", "dialogData"]),
   },
   methods: {
+    ...mapMutations(["hideDialog", "setDialogData"]),
     handleInput(value) {
-      this.$emit("test");
       this.data = value;
     },
     cancel() {
-      this.dialog.cancel();
+      this.hideDialog();
+      this.dialog.onCancel && this.dialog.onCancel()
     },
     confirm(data) {
-      this.dialog.confirm(data);
+      this.hideDialog();
+      this.setDialogData(data);
+      this.dialog.onConfirm && this.dialog.onConfirm(data)
     },
   },
 };
@@ -59,6 +60,15 @@ export default {
   bottom: 0;
 
   background-color: rgba(0, 0, 0, 0.6);
+
+  opacity: 1;
+
+  transition: opacity cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
+}
+
+.dialog-wrapper.is-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .dialog {
@@ -71,6 +81,12 @@ export default {
   border-radius: 4px;
 
   background-color: white;
+
+  transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
+}
+
+.is-hidden .dialog {
+  transform: translateY(-10px);
 }
 
 .dialog-header {

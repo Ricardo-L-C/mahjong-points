@@ -12,7 +12,7 @@
       ></PlayerComp>
       <ControlComp></ControlComp>
     </template>
-    <div id="dialog" v-show="dialogOnShow"></div>
+    <Dialog />
   </div>
 </template>
 
@@ -21,17 +21,18 @@ import { mapState } from "vuex";
 
 import PlayerComp from "./player.vue";
 import ControlComp from "./control.vue";
+import Dialog from "./dialog.vue";
 
 import Player from "../js/player.js";
 
 export default {
   name: "App",
-  components: { PlayerComp, ControlComp },
+  components: { PlayerComp, ControlComp, Dialog },
   data() {
     return {};
   },
   computed: {
-    ...mapState(["game", "gameInited", "dialogOnShow"]),
+    ...mapState(["game", "gameInited"]),
   },
   methods: {},
   mounted() {

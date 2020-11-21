@@ -1,4 +1,4 @@
-import Dialog from "./dialog.js";
+import store from './store';
 
 export default class Player {
     constructor(game, name, points, pos) {
@@ -21,10 +21,8 @@ export default class Player {
 
     richi() {
         if (this.points < this.game.settings["立直棒点数"] && this.game.settings["击飞"]) {
-            const dialog = new Dialog("error");
-            return dialog.show("点数不足，无法立直");
-        }
-        else if (this.richiS === true) {
+            return store.dispatch('showDialog', {}, "点数不足，无法立直");
+        } else if (this.richiS === true) {
             return;
         }
 

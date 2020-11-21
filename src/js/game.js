@@ -1,6 +1,6 @@
-import Dialog from "./dialog.js";
 import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
+import store from './store'
 
 export default class Game {
     constructor() {
@@ -22,10 +22,7 @@ export default class Game {
     async init() {
 
         // 在此弹出 beginning dialog，获取 playerNum、playerNames
-
-        /*const dialog = new Dialog("beginning");
-        const {playerNum, playerNames} = await dialog.show();*/
-
+        // const {playerNum, playerNames} = await store.dispatch('showDialog')
         let playerNum = 4,
             playerNames = ["0", "1", "2", "3"];
 
@@ -50,11 +47,9 @@ export default class Game {
 
         this.commonPoints = preSettings["commonPoints"];
 
-        let dialog = new Dialog("settings");
-        await dialog.show('prerules', {
-            type: 'test',
-            defaultValue: preSettings["rules"]
-        });
+        const setting = await store.dispatch('showDialog', {
+            type: 'test'
+        }, preSettings["rules"])
 
         this.settings = preSettings["rules"]["天凤段位战"];
     }
@@ -87,14 +82,11 @@ export default class Game {
         this.players.sort((x, y) => {
             if (x.points > y.points) {
                 return 1;
-            }
-            else if (x.points < y.points) {
+            } else if (x.points < y.points) {
                 return -1;
-            }
-            else if (x.beginPos < y.beginPos) {
+            } else if (x.beginPos < y.beginPos) {
                 return 1;
-            }
-            else {
+            } else {
                 return -1;
             }
         });
@@ -112,19 +104,15 @@ export default class Game {
             if (target === i) {
                 if (target.pos === 0) {
                     i.points += this.ceilTo100(base * 2) * 3 + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
-                }
-                else if (target.pos !== 0) {
+                } else if (target.pos !== 0) {
                     i.points += this.ceilTo100(base * 2) + this.ceilTo100(res) * 2 + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
                 }
-            }
-            else if (target !== i) {
+            } else if (target !== i) {
                 if (target.pos === 0) {
                     i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
-                }
-                else if (target.pos !== 0 && i.pos === 0) {
+                } else if (target.pos !== 0 && i.pos === 0) {
                     i.points -= this.ceilTo100(base * 2) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
-                }
-                else if (target.pos !== 0 && i.pos !== 0) {
+                } else if (target.pos !== 0 && i.pos !== 0) {
                     i.points -= this.ceilTo100(res) + this.settings["场棒点数"] * this.public["honba"] / (this.playerNum - 1);
                 }
             }
@@ -132,8 +120,7 @@ export default class Game {
 
         if (target.pos === 0) {
             this.lastEndMode |= 0b00001000;
-        }
-        else {
+        } else {
             this.lastEndMode |= 0b00000100;
         }
 
@@ -155,16 +142,13 @@ export default class Game {
             if (i === target) {
                 if (target.pos === 0) {
                     i.points += this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
-                }
-                else if (target.pos !== 0) {
+                } else if (target.pos !== 0) {
                     i.points += this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.public["honba"] + this.settings["立直榜点数"] * this.public["richi"];
                 }
-            }
-            else if (i === lose) {
+            } else if (i === lose) {
                 if (target.pos === 0) {
                     i.points -= this.ceilTo100(base * 6) + this.settings["场棒点数"] * this.public["honba"];
-                }
-                else if (target.pos !== 0) {
+                } else if (target.pos !== 0) {
                     i.points -= this.ceilTo100(base * 4) + this.settings["场棒点数"] * this.public["honba"];
                 }
             }
@@ -172,8 +156,7 @@ export default class Game {
 
         if (target.pos === 0) {
             this.lastEndMode |= 0b00000010;
-        }
-        else {
+        } else {
             this.lastEndMode |= 0b00000001;
         }
     }
@@ -285,19 +268,15 @@ export default class Game {
                 if (target === i) {
                     if (target.pos === 0) {
                         i.points += 4000 * 3;
-                    }
-                    else if (target.pos !== 0) {
+                    } else if (target.pos !== 0) {
                         i.points += 8000;
                     }
-                }
-                else if (target !== i) {
+                } else if (target !== i) {
                     if (target.pos === 0) {
                         i.points -= 4000;
-                    }
-                    else if (target.pos !== 0 && i.pos === 0) {
+                    } else if (target.pos !== 0 && i.pos === 0) {
                         i.points -= 4000;
-                    }
-                    else if (target.pos !== 0 && i.pos !== 0) {
+                    } else if (target.pos !== 0 && i.pos !== 0) {
                         i.points -= 2000;
                     }
                 }
@@ -318,13 +297,11 @@ export default class Game {
             (this.lastEndMode & 0b00100000) && this.settings["听牌连庄"] ||
             (this.lastEndMode & 0b00001010) && this.settings["和牌连庄"]) {
             this.public["honba"] += 1;
-        }
-        else if ((this.lastEndMode & 0b00010000) ||
+        } else if ((this.lastEndMode & 0b00010000) ||
             (this.lastEndMode & 0b00100000) && !this.settings["听牌连庄"]) {
             this.public["honba"] += 1;
             this.public["round"] += 1;
-        }
-        else {
+        } else {
             this.public["honba"] = 0;
             this.public["round"] += 1;
         }
@@ -361,13 +338,10 @@ export default class Game {
 
         if (this.settings["长度"] === "全庄") {
             max = length = this.playerNum * 4 - 1;
-        }
-
-        else if (this.settings["长度"] === "东风") {
+        } else if (this.settings["长度"] === "东风") {
             length = this.playerNum - 1;
             maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
-        }
-        else if (this.settings["长度"] === "半庄") {
+        } else if (this.settings["长度"] === "半庄") {
             length = this.playerNum * 2 - 1;
             maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
         }
