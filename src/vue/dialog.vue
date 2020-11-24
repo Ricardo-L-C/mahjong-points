@@ -40,12 +40,12 @@ export default {
     },
     cancel() {
       this.hideDialog();
-      this.dialog.onCancel && this.dialog.onCancel()
+      this.dialog.onCancel && this.dialog.onCancel();
     },
     confirm(data) {
       this.hideDialog();
       this.setDialogData(data);
-      this.dialog.onConfirm && this.dialog.onConfirm(data)
+      this.dialog.onConfirm && this.dialog.onConfirm(data);
     },
   },
 };
