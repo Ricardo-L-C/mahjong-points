@@ -1,6 +1,4 @@
-import {
-    createStore
-} from "vuex";
+import { createStore } from "vuex";
 import Game from './game';
 
 const store = createStore({
@@ -21,16 +19,15 @@ const store = createStore({
         gameInited(state) {
             state.gameInited = true;
         },
-        showDialog(state, dialogInfo = {}, dialogData = {}) {
+        showDialog(state, dialogData = {}) {
             state.dialogVisible = true;
-            state.dialog = dialogInfo
-            state.dialogData = dialogData
+            state.dialogData = dialogData;
         },
         hideDialog(state) {
             state.dialogVisible = false;
         },
         setDialogData(state, data = {}) {
-            state.dialogData = data
+            state.dialogData = data;
         }
     },
     actions: {
@@ -39,8 +36,7 @@ const store = createStore({
             commit("gameInited");
         },
 
-        showDialog({ commit }, dialogInfo = {}, dialogData) {
-            console.log(dialogInfo)
+        showDialog({ commit }, dialogData) {
             console.log(dialogData)
             return new Promise(resolve => {
                 const {
@@ -48,7 +44,7 @@ const store = createStore({
                     onCancel
                 } = dialogInfo;
                 commit('showDialog', {
-                    ...dialogInfo,
+                    ...dialogData,
                     onConfirm(data) {
                         onConfirm && onConfirm(data);
                         resolve(data || {});
@@ -57,7 +53,7 @@ const store = createStore({
                         onCancel && onCancel();
                         resolve(false);
                     }
-                }, dialogData);
+                });
             });
         },
 
