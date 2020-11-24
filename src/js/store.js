@@ -14,7 +14,6 @@ const store = createStore({
             dialogData: {},
         };
     },
-    methods: {},
     mutations: {
         gameInited(state) {
             state.gameInited = true;
