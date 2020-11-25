@@ -20,10 +20,8 @@ export default class Game {
     /*** inits ***/
 
     async init() {
-
-        // 在此弹出 beginning dialog，获取 playerNum、playerNames
         // const {playerNum, playerNames} = await store.dispatch('showDialog')
-        let playerNum = 4,
+        const playerNum = 4,
             playerNames = ["0", "1", "2", "3"];
 
         this.playerNum = playerNum;
@@ -36,26 +34,27 @@ export default class Game {
 
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
-            let player = new Player(this, this.playerNames[i], this.settings["起始点数"][i], i);
+            const player = new Player(this, this.playerNames[i], this.settings["起始点数"][i], i);
 
             this.players.push(player);
         }
     }
 
     async initSettings() {
-        let preSettings = await this.getPreSettings();
+        const preSettings = await this.getPreSettings();
 
         this.commonPoints = preSettings["commonPoints"];
 
         const setting = await store.dispatch('showDialog', {
-            type: 'test'
-        }, preSettings["rules"])
+            type: 'setting',
+            data: preSettings["rules"]
+        });
 
         this.settings = preSettings["rules"]["天凤段位战"];
     }
 
     async getPreSettings() {
-        let preSettings = await (await fetch('/static/json/config.json')).json();
+        const preSettings = await (await fetch('/static/json/config.json')).json();
 
         return preSettings[`${this.playerNum}`];
     }
@@ -98,7 +97,7 @@ export default class Game {
     // TODO: test events
 
     tsumo(target) {
-        let base = calTsumo(target)["base"];
+        const base = calTsumo(target)["base"];
 
         for (let i of this.players) {
             if (target === i) {
@@ -128,15 +127,15 @@ export default class Game {
     }
 
     calTsumo(target) {
-        let dialog = new Dialog("calTsumo");
-        return dialog.show(target);
+        /*let dialog = new Dialog("calTsumo");
+        return dialog.show(target);*/
     }
 
     // TODO: add loser
     ron(target, loser = null) {
-        let res = this.calRon(target);
-        let lose = this.findByName(res["lose"]);
-        let base = res["base"];
+        const res = this.calRon(target);
+        const lose = this.findByName(res["lose"]);
+        const base = res["base"];
 
         for (let i of this.players) {
             if (i === target) {
@@ -162,20 +161,20 @@ export default class Game {
     }
 
     calRon(target) {
-        let dialog = new Dialog("calRon");
-        return dialog.show(target);
+        /*let dialog = new Dialog("calRon");
+        return dialog.show(target);*/
     }
 
     // TODO: fix 流局满贯不算罚符但更新听牌情况
     exhaustive() {
-        let dialog = new Dialog("exhaustive");
-        let res = dialog.show(this.playerNames);
+        const dialog = new Dialog("exhaustive");
+        const res = dialog.show(this.playerNames);
 
         if (res["cancel"])
             return;
 
-        let listen = res["listen"];
-        let noListen = this.playerNames.filter(x => !listen.includes(x));
+        const listen = res["listen"];
+        const noListen = this.playerNames.filter(x => !listen.includes(x));
 
         if (this.settings["流局满贯"] && res["nagashimangan"]) {
             this.nagashimangan();
@@ -183,7 +182,7 @@ export default class Game {
 
         if (listen.length > 0 && listen.length < 4) {
             for (let name of listen) {
-                let i = this.getPlayer(name);
+                const i = this.getPlayer(name);
                 i.points += this.settings["不听罚符"][3 - listen.length];
 
                 if (i.pos === 0) {
@@ -191,7 +190,7 @@ export default class Game {
                 }
             }
             for (let name of noListen) {
-                let i = this.getPlayer(name);
+                const i = this.getPlayer(name);
                 i.points -= this.settings["不听罚符"][3 - noListen.length];
             }
         }
@@ -204,8 +203,8 @@ export default class Game {
     }
 
     abortive() {
-        let dialog = new Dialog("abortive");
-        let res = dialog.show(this.settings["途中流局"]);
+        const dialog = new Dialog("abortive");
+        const res = dialog.show(this.settings["途中流局"]);
 
         if (res["cancel"])
             return;
@@ -221,21 +220,21 @@ export default class Game {
 
     multiRon() {
         if (this.settings["头跳"]) {
-            let dialog = new Dialog("error");
+            const dialog = new Dialog("error");
             return dialog.show("已开启头跳，不允许多家和。");
         }
 
-        let dialog = new Dialog("multiRon");
-        let res = dialog.show(this.playerNames);
+        const dialog = new Dialog("multiRon");
+        const res = dialog.show(this.playerNames);
 
         if (res["cancel"])
             return;
 
-        let winner = res["winner"];
-        let loser = this.getPlayer(res["loser"]);
+        const winner = res["winner"];
+        const loser = this.getPlayer(res["loser"]);
 
         if (winner.length == 3 && this.settings["途中流局"].includes("三家和了")) {
-            let dialog = new Dialog("error");
+            const dialog = new Dialog("error");
             return dialog.show("已开启三家流局，不允许三家和。");
         }
 
@@ -253,16 +252,16 @@ export default class Game {
     }
 
     nagashimangan() {
-        let dialog = new Dialog("nagashimangan");
-        let res = dialog.show(this.playerNames);
+        const dialog = new Dialog("nagashimangan");
+        const res = dialog.show(this.playerNames);
 
         if (res["cancel"])
             return;
 
-        let nameList = res["list"];
+        const nameList = res["list"];
 
         for (let i of nameList) {
-            let target = this.getPlayer(i);
+            const target = this.getPlayer(i);
 
             for (let i of this.players) {
                 if (target === i) {
@@ -333,8 +332,8 @@ export default class Game {
         }
 
         // 长度
-        let length;
-        let maxLength;
+        const length;
+        const maxLength;
 
         if (this.settings["长度"] === "全庄") {
             max = length = this.playerNum * 4 - 1;

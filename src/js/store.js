@@ -6,11 +6,7 @@ const store = createStore({
         return {
             game: new Game(),
             gameInited: false,
-            dialogVisible: true,
-            dialog: {
-                name: '',
-                type: '',
-            },
+            dialogVisible: false,
             dialogData: {},
         };
     },
@@ -26,7 +22,7 @@ const store = createStore({
             state.dialogVisible = false;
         },
         setDialogData(state, data = {}) {
-            state.dialogData = data;
+            state.dialogData.data = data;
         }
     },
     actions: {
@@ -35,18 +31,17 @@ const store = createStore({
             commit("gameInited");
         },
 
-        showDialog({ commit }, dialogData) {
-            console.log(dialogData)
+        showDialog({ state, commit }, dialogData) {
             return new Promise(resolve => {
                 const {
                     onConfirm,
                     onCancel
-                } = dialogInfo;
+                } = dialogData;
                 commit('showDialog', {
                     ...dialogData,
-                    onConfirm(data) {
-                        onConfirm && onConfirm(data);
-                        resolve(data || {});
+                    onConfirm() {
+                        onConfirm && onConfirm();
+                        resolve(state.dialogData.data || {});
                     },
                     onCancel() {
                         onCancel && onCancel();

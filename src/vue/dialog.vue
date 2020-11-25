@@ -1,18 +1,17 @@
 <template>
   <div class="dialog-wrapper" :class="{ 'is-hidden': !dialogVisible }">
     <div class="dialog">
-      <div class="dialog-header">{{ dialog.name }}</div>
+      <div class="dialog-header">{{ dialogData.type }}</div>
       <div class="dialog-body">
-        {{ dialogData }}
-        <Test
-          v-if="dialog.type === 'test'"
-          :value="data"
-          @input="handleInput"
-        />
+        {{ dialogData.data }}
+        <!--<Test
+          v-if="dialogData.type === 'test'"
+          :value="dialogData.data"
+        />-->
       </div>
       <div class="dialog-footer">
         <button @click="cancel">取消</button>
-        <button @click="confirm(data)">确定</button>
+        <button @click="confirm">确定</button>
       </div>
     </div>
   </div>
@@ -25,27 +24,18 @@ import Test from "./DialogTemplate/test.vue";
 
 export default {
   components: { Test },
-  data() {
-    return {
-      data: {},
-    };
-  },
   computed: {
-    ...mapState(["dialog", "dialogVisible", "dialogData"]),
+    ...mapState(["dialogVisible", "dialogData"]),
   },
   methods: {
-    ...mapMutations(["hideDialog", "setDialogData"]),
-    handleInput(value) {
-      this.data = value;
-    },
+    ...mapMutations(["hideDialog"]),
     cancel() {
       this.hideDialog();
       this.dialog.onCancel && this.dialog.onCancel();
     },
-    confirm(data) {
+    confirm() {
       this.hideDialog();
-      this.setDialogData(data);
-      this.dialog.onConfirm && this.dialog.onConfirm(data);
+      this.dialogData.onConfirm && this.dialogData.onConfirm();
     },
   },
 };

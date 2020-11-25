@@ -8,19 +8,12 @@
 <script>
 export default {
   props: {
-    value: {
-      type: Object,
-      default: () => ({})
-    },
+    value: Object
   },
-
-  emits: ['input'],
-
   methods: {
     handleInput(name, event) {
       const val = event.target.value
       const newValue = { ...this.value, [name]: val };
-      this.$emit('input', newValue)
     },
   },
 };
