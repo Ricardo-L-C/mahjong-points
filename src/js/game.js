@@ -220,8 +220,10 @@ export default class Game {
 
     multiRon() {
         if (this.settings["头跳"]) {
-            const dialog = new Dialog("error");
-            return dialog.show("已开启头跳，不允许多家和。");
+            return await store.dispatch('showDialog', {
+                type: 'error',
+                data: "开启头跳，不允许多家和"
+            });
         }
 
         const dialog = new Dialog("multiRon");
