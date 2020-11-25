@@ -100,6 +100,13 @@ export default class Game {
     // TODO: how to add history
     // TODO: test events
 
+    async calTsumo(target) {
+        return await showDialog({
+            type: 'calTsumo',
+            data: target
+        });
+    }
+
     async tsumo(target) {
         const base = await this.calTsumo(target)["base"];
 
@@ -130,16 +137,16 @@ export default class Game {
         this.step();
     }
 
-    async calTsumo(target) {
+    async calRon(target) {
         return await showDialog({
-            type: 'calTsumo',
+            type: 'calRon',
             data: target
         });
     }
 
     // TODO: add loser
-    ron(target, loser = null) {
-        const res = this.calRon(target);
+    async ron(target, loser = null) {
+        const res = await this.calRon(target);
         const lose = this.getPlayer(res["lose"]);
         const base = res["base"];
 
@@ -164,13 +171,8 @@ export default class Game {
         } else {
             this.lastEndMode |= 0b00000001;
         }
-    }
 
-    async calRon(target) {
-        return await showDialog({
-            type: 'calRon',
-            data: target
-        });
+        this.step();
     }
 
     // TODO: fix 流局满贯不算罚符但更新听牌情况
@@ -188,7 +190,7 @@ export default class Game {
         const noListen = this.playerNames.filter(x => !listen.includes(x));
 
         if (this.settings["流局满贯"] && res["nagashimangan"]) {
-            this.nagashimangan();
+            await this.nagashimangan();
         }
 
         if (listen.length > 0 && listen.length < 4) {
@@ -260,14 +262,8 @@ export default class Game {
         }
 
         for (let i of winner) {
-            this.ron(this.getPlayer(loser));
+            await this.ron(this.getPlayer(i), loser);
         }
-
-        this.step();
-    }
-
-    singleRon(target) {
-        this.ron(target);
 
         this.step();
     }
