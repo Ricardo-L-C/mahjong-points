@@ -22,11 +22,11 @@
         <div class="round flex-center">{{ roundName }}</div>
         <div class="honba-n flex-center">
           <img src="/static/img/honba.png" />
-          <div>&nbsp;×&nbsp;{{ player.game.public.honba }}</div>
+          <div>&nbsp;×&nbsp;{{ game.public.honba }}</div>
         </div>
         <div class="richi-n flex-center">
           <img src="/static/img/richi-s.png" />
-          <div>&nbsp;×&nbsp;{{ player.game.public.richi }}</div>
+          <div>&nbsp;×&nbsp;{{ game.public.richi }}</div>
         </div>
       </div>
       <div class="buttons flex-center flex-column">
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import Player from "../js/player.js";
 
 export default {
@@ -46,14 +48,13 @@ export default {
     player: Player,
   },
   computed: {
+    ...mapState(["game"]),
     roundName() {
       const roundList = ["东", "南", "西", "北"];
 
       return `${
-        roundList[
-          Math.floor(this.player.game.public.round / this.player.game.playerNum)
-        ]
-      }${(this.player.game.public.round % this.player.game.playerNum) + 1}局`;
+        roundList[Math.floor(this.game.public.round / this.game.playerNum)]
+      }${(this.game.public.round % this.game.playerNum) + 1}局`;
     },
     posImg() {
       return `/static/img/${this.player.pos}.png`;

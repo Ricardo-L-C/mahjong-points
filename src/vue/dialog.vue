@@ -31,7 +31,7 @@ export default {
     ...mapMutations(["hideDialog"]),
     cancel() {
       this.hideDialog();
-      this.dialog.onCancel && this.dialog.onCancel();
+      this.dialogData.onCancel && this.dialogData.onCancel();
     },
     confirm() {
       this.hideDialog();

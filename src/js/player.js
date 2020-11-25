@@ -1,9 +1,7 @@
 import store from './store';
 
 export default class Player {
-    constructor(game, name, points, pos) {
-        this.game = game;
-
+    constructor(name, points, pos) {
         this.richiS = false;
         this.beginPos = pos;
         this.pos = pos;
@@ -12,28 +10,33 @@ export default class Player {
     }
 
     ron() {
-        this.game.singleRon(this);
+        store.state.game.singleRon(this);
     }
 
     tsumo() {
-        this.game.tsumo(this);
+        store.state.game.tsumo(this);
     }
 
     richi() {
-        if (this.points < this.game.settings["立直棒点数"] && this.game.settings["击飞"]) {
+        if (this.points < store.state.game.settings["立直棒点数"] && store.state.game.settings["击飞"]) {
             return store.dispatch('showDialog', {}, "点数不足，无法立直");
         } else if (this.richiS === true) {
             return;
         }
 
-        this.points -= this.game.settings["立直棒点数"];
-        this.game.public["richi"] += 1;
+        this.points -= store.state.game.settings["立直棒点数"];
+        store.state.game.public["richi"] += 1;
         this.richiS = true;
     }
 
     step() {
         this.richiS = false;
 
-        this.pos = this.pos < 1 ? this.pos + this.game.playerNum - 1 : this.pos - 1;
+        this.pos = this.pos < 1 ? this.pos + store.state.game.playerNum - 1 : this.pos - 1;
+
+        this.pos = (this.beginPos - store.state.game.public["round"]) % store.state.game.playerNum;
+        if (this.pos < 0) {
+            this.pos += store.state.game.playerNum;
+        }
     }
 }

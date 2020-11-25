@@ -1,6 +1,6 @@
 import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
-import store from './store'
+import store from './store';
 
 async function showDialog(data) {
     return await store.dispatch("showDialog", data);
@@ -38,7 +38,7 @@ export default class Game {
 
     initPlayers() {
         for (let i = 0; i < this.playerNum; ++i) {
-            const player = new Player(this, this.playerNames[i], this.settings["起始点数"][i], i);
+            const player = new Player(this.playerNames[i], this.settings["起始点数"][i], i);
 
             this.players.push(player);
         }
@@ -100,8 +100,8 @@ export default class Game {
     // TODO: how to add history
     // TODO: test events
 
-    tsumo(target) {
-        const base = calTsumo(target)["base"];
+    async tsumo(target) {
+        const base = await this.calTsumo(target)["base"];
 
         for (let i of this.players) {
             if (target === i) {
@@ -140,7 +140,7 @@ export default class Game {
     // TODO: add loser
     ron(target, loser = null) {
         const res = this.calRon(target);
-        const lose = this.findByName(res["lose"]);
+        const lose = this.getPlayer(res["lose"]);
         const base = res["base"];
 
         for (let i of this.players) {
