@@ -332,11 +332,11 @@ export default class Game {
         }
 
         // 长度
-        const length;
-        const maxLength;
+        let length;
+        let maxLength;
 
         if (this.settings["长度"] === "全庄") {
-            max = length = this.playerNum * 4 - 1;
+            maxLength = length = this.playerNum * 4 - 1;
         } else if (this.settings["长度"] === "东风") {
             length = this.playerNum - 1;
             maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
