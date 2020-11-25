@@ -2,6 +2,10 @@ import Player from "./player.js";
 import GameHistory from "./gameHistory.js";
 import store from './store'
 
+async function showDialog(data) {
+    return await store.dispatch("showDialog", data);
+}
+
 export default class Game {
     constructor() {
         this.history = new GameHistory();
@@ -45,7 +49,7 @@ export default class Game {
 
         this.commonPoints = preSettings["commonPoints"];
 
-        const setting = await store.dispatch('showDialog', {
+        const setting = await showDialog({
             type: 'setting',
             data: preSettings["rules"]
         });
@@ -126,9 +130,11 @@ export default class Game {
         this.step();
     }
 
-    calTsumo(target) {
-        /*let dialog = new Dialog("calTsumo");
-        return dialog.show(target);*/
+    async calTsumo(target) {
+        return await showDialog({
+            type: 'calTsumo',
+            data: target
+        });
     }
 
     // TODO: add loser
@@ -160,18 +166,23 @@ export default class Game {
         }
     }
 
-    calRon(target) {
-        /*let dialog = new Dialog("calRon");
-        return dialog.show(target);*/
+    async calRon(target) {
+        return await showDialog({
+            type: 'calRon',
+            data: target
+        });
     }
 
     // TODO: fix 流局满贯不算罚符但更新听牌情况
-    exhaustive() {
-        const dialog = new Dialog("exhaustive");
-        const res = dialog.show(this.playerNames);
+    async exhaustive() {
+        const res = await showDialog({
+            type: 'exhaustive',
+            data: this.playerNames
+        });
 
-        if (res["cancel"])
+        if (!res) {
             return;
+        }
 
         const listen = res["listen"];
         const noListen = this.playerNames.filter(x => !listen.includes(x));
@@ -202,12 +213,15 @@ export default class Game {
         this.step();
     }
 
-    abortive() {
-        const dialog = new Dialog("abortive");
-        const res = dialog.show(this.settings["途中流局"]);
+    async abortive() {
+        const res = await showDialog({
+            type: 'abortive',
+            data: this.settings["途中流局"]
+        });
 
-        if (res["cancel"])
+        if (!res) {
             return;
+        }
 
         // let mode = res["mode"];
 
@@ -218,26 +232,31 @@ export default class Game {
 
     // TODO: fix 多家和场供重复计算
 
-    multiRon() {
+    async multiRon() {
         if (this.settings["头跳"]) {
-            return await store.dispatch('showDialog', {
+            return await showDialog({
                 type: 'error',
                 data: "开启头跳，不允许多家和"
             });
         }
 
-        const dialog = new Dialog("multiRon");
-        const res = dialog.show(this.playerNames);
+        const res = await showDialog({
+            type: 'multiRon',
+            data: this.playerNames
+        });
 
-        if (res["cancel"])
+        if (!res) {
             return;
+        }
 
         const winner = res["winner"];
         const loser = this.getPlayer(res["loser"]);
 
         if (winner.length == 3 && this.settings["途中流局"].includes("三家和了")) {
-            const dialog = new Dialog("error");
-            return dialog.show("已开启三家流局，不允许三家和。");
+            return await showDialog({
+                type: 'error',
+                data: "已开启三家流局，不允许三家和"
+            });
         }
 
         for (let i of winner) {
@@ -253,12 +272,15 @@ export default class Game {
         this.step();
     }
 
-    nagashimangan() {
-        const dialog = new Dialog("nagashimangan");
-        const res = dialog.show(this.playerNames);
+    async nagashimangan() {
+        const res = await showDialog({
+            type: 'nagashimangan',
+            data: this.playerNames
+        });
 
-        if (res["cancel"])
+        if (!res) {
             return;
+        }
 
         const nameList = res["list"];
 
