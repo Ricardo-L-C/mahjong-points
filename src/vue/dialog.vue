@@ -47,14 +47,21 @@ export default {
   right: 5%;
   bottom: 5%;
 
-  transition: opacity cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
-  transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
+  /*transition: opacity cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;
+  transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.3s;*/
 }
 
+/*@media (orientation: landscape) {
+  .dialog {
+    transform: rotate(270deg);
+  }
+}*/
+
 .dialog.is-hidden {
-  opacity: 0;
+  /*opacity: 0;
   pointer-events: none;
-  transform: translateY(-10px);
+  transform: translateY(-10px);*/
+  display: none;
 }
 
 .dialog-header {
