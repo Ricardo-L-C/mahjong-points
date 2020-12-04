@@ -325,6 +325,8 @@ export default class Game {
             this.public["round"] += 1;
         }
 
+        this.endCheck();
+
         for (let i of this.players) {
             i.step();
         }
@@ -337,7 +339,7 @@ export default class Game {
         if (this.settings["击飞"]) {
             for (let i of this.players) {
                 if (i.points < 0) {
-                    return endGame();
+                    return this.endGame();
                 }
             }
         }
@@ -346,7 +348,7 @@ export default class Game {
         if (this.settings["天边"] > 0) {
             for (let i of this.players) {
                 if (i.points >= this.settings["天边"]) {
-                    return endGame();
+                    return this.endGame();
                 }
             }
         }
@@ -359,26 +361,32 @@ export default class Game {
             maxLength = length = this.playerNum * 4 - 1;
         } else if (this.settings["长度"] === "东风") {
             length = this.playerNum - 1;
-            maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
+            maxLength = this.settings["南入/西入"] ? length + this.playerNum : length;
         } else if (this.settings["长度"] === "半庄") {
             length = this.playerNum * 2 - 1;
-            maxLength = this.settings["南入/西入"] ? length += this.playerNum : length;
+            maxLength = this.settings["南入/西入"] ? length + this.playerNum : length;
         }
 
+        // 超过长度
         if (this.public["round"] > maxLength) {
-            return endGame();
+            return this.endGame();
         }
 
-        if (this.public["round"] > length && this.settings["南入/西入"]) {
+        // 南入/西入
+        if (this.public["round"] > length) {
+            for(let i of this.players){
+                if(i.points >= this.settings["1位必要点数"]){
 
+                }
+            }
         }
 
         if (this.public["round"] == length) {
-            // oya ten
+            // 亲听
             if (this.lastEndMode &= 0b00100000 && !this.settings["听牌终局"]) {
                 return false;
             }
-            // oya ron
+            // 亲和
             if (this.lastEndMode &= 0b00001010 && !this.settings["和了终局"]) {
                 return false;
             }
